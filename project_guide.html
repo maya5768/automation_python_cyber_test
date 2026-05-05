@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מדריך פרויקט אוטומציה – TutorialsNinja</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --border: #2d3148;
+      --accent: #7c6af7;
+      --accent2: #4fd1c5;
+      --green: #48bb78;
+      --red: #fc8181;
+      --yellow: #f6e05e;
+      --orange: #f6ad55;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --code-bg: #0d1117;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+    /* ── TOP HEADER ── */
+    header {
+      background: linear-gradient(135deg, #1a1d27 0%, #2d2060 100%);
+      border-bottom: 2px solid var(--accent);
+      padding: 40px 60px 30px;
+      text-align: center;
+    }
+    header h1 { font-size: 2.2rem; color: #fff; margin-bottom: 8px; }
+    header p  { color: var(--muted); font-size: 1rem; }
+    header .badge {
+      display: inline-block; margin: 4px;
+      background: var(--border); border: 1px solid var(--accent);
+      border-radius: 20px; padding: 3px 14px;
+      color: var(--accent); font-size: 0.82rem;
+    }
+
+    /* ── LAYOUT ── */
+    .wrapper { max-width: 1100px; margin: 0 auto; padding: 40px 30px; }
+
+    /* ── SECTION ── */
+    section { margin-bottom: 50px; }
+    section > h2 {
+      font-size: 1.5rem;
+      color: var(--accent2);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    section > h2 .icon { font-size: 1.4rem; }
+
+    h3 {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin: 22px 0 10px;
+    }
+    p { margin-bottom: 12px; }
+    ul, ol { margin: 10px 0 14px 20px; }
+    ul li, ol li { margin-bottom: 6px; }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 28px;
+      margin-bottom: 20px;
+    }
+    .card h3 { margin-top: 0; }
+
+    /* ── CODE BLOCKS ── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 14px 0;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.88rem;
+      direction: ltr;
+      text-align: left;
+    }
+    code { font-family: 'Consolas', 'Courier New', monospace; }
+    .kw  { color: #c792ea; }  /* keywords */
+    .fn  { color: #82aaff; }  /* functions */
+    .str { color: #c3e88d; }  /* strings */
+    .cm  { color: #546e7a; font-style: italic; }  /* comments */
+    .cl  { color: #ffcb6b; }  /* class names */
+    .num { color: #f78c6c; }  /* numbers */
+    .deco{ color: #89ddff; }  /* decorators */
+    .var { color: #eeffff; }
+
+    /* ── FILE TREE ── */
+    .tree {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 24px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9rem;
+      line-height: 2;
+      direction: ltr;
+      text-align: left;
+    }
+    .tree .folder { color: #89ddff; font-weight: bold; }
+    .tree .file   { color: #c3e88d; }
+    .tree .note   { color: #546e7a; }
+
+    /* ── BUG CARDS ── */
+    .bug-card {
+      background: var(--card);
+      border: 1px solid #fc8181;
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-bottom: 18px;
+    }
+    .bug-card h4 {
+      color: var(--red);
+      font-size: 1rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bug-card .fix {
+      background: rgba(72,187,120,0.08);
+      border-right: 3px solid var(--green);
+      border-radius: 0 6px 6px 0;
+      padding: 12px 16px;
+      margin-top: 12px;
+    }
+    .bug-card .fix strong { color: var(--green); }
+
+    /* ── FLOW STEPS ── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .flow-step:last-child { border-bottom: none; }
+    .step-num {
+      background: var(--accent);
+      color: #fff;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    .step-content h4 { color: var(--accent2); margin-bottom: 4px; }
+    .step-content p  { color: var(--muted); margin: 0; font-size: 0.9rem; }
+
+    /* ── CONCEPT BOX ── */
+    .concept {
+      background: rgba(124,106,247,0.07);
+      border: 1px solid rgba(124,106,247,0.3);
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin-bottom: 16px;
+    }
+    .concept h4 { color: var(--accent); margin-bottom: 8px; }
+
+    /* ── GRID ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media(max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* ── HIGHLIGHT ── */
+    .hl-green { color: var(--green); font-weight: bold; }
+    .hl-red   { color: var(--red);   font-weight: bold; }
+    .hl-acc   { color: var(--accent); }
+    .tag {
+      display: inline-block;
+      background: var(--border);
+      border-radius: 4px;
+      padding: 1px 8px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--accent2);
+    }
+
+    /* ── CMD BOX ── */
+    .cmd {
+      background: #000;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #7fff7f;
+      direction: ltr;
+      text-align: left;
+      margin: 10px 0;
+    }
+    .cmd span { color: #aaa; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 30px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🤖 מדריך פרויקט אוטומציה – TutorialsNinja</h1>
+  <p>מדריך מפורט למפתח אוטומציה מתחיל | Python + Playwright + POM</p>
+  <div style="margin-top:14px">
+    <span class="badge">Python</span>
+    <span class="badge">Playwright</span>
+    <span class="badge">POM</span>
+    <span class="badge">OOP</span>
+    <span class="badge">Data-Driven</span>
+    <span class="badge">Allure Reports</span>
+  </div>
+</header>
+
+<div class="wrapper">
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 1. מטרת הפרויקט                          -->
+  <!-- ══════════════════════════════════════════ -->
+  <section>
+    <h2><span class="icon">🎯</span> מה אנחנו בונים?</h2>
+
+    <p>
+      הפרויקט הוא בדיקת End-to-End (E2E) על האתר
+      <a href="https://tutorialsninja.com/demo/" style="color:var(--accent2)">tutorialsninja.com/demo</a>
+      – אתר קניות דמו (OpenCart). הבדיקה מדמה משתמש אמיתי שמחפש מוצרים, מסנן לפי מחיר,
+      מוסיף לסל ומאמת את הסכום.
+    </p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>הזדהות (Login)</h4>
+          <p>כניסה לאתר עם שם משתמש וסיסמא. אם המשתמש לא קיים – נרשום אחד אוטומטית.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>חיפוש לפי מחיר – <code>search_items_by_name_under_price</code></h4>
+          <p>מחפשים מוצרים לפי מילת מפתח ומחזירים רשימת URLs של מוצרים שמחירם &lt;= maxPrice.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>הוספה לסל – <code>add_items_to_cart</code></h4>
+          <p>עוברים על כל URL, נכנסים לדף המוצר, בוחרים וריאנטים (צבע/מידה) ולוחצים "Add to Cart".</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>אימות סכום – <code>assert_cart_total_not_exceeds</code></h4>
+          <p>נכנסים לעגלת הקניות, קוראים את הסכום הכולל ומאמתים שהוא ≤ budgetPerItem × מספר פריטים.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 2. מבנה הפרויקט                          -->
+  <!-- ══════════════════════════════════════════ -->
+  <section>
+    <h2><span class="icon">📁</span> מבנה הפרויקט</h2>
+
+    <div class="tree">
+      <span class="folder">automation_python_cyber_test/</span><br>
+      &nbsp;&nbsp;├── <span class="folder">config/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">test_data.json</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← נתוני בדיקה (Data-Driven)</span><br>
+      &nbsp;&nbsp;├── <span class="folder">pages/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← Page Object Model</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">base_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← מחלקת אב משותפת לכל הדפים</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">home_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← דף הבית + חיפוש</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">login_page.py</span>&nbsp;&nbsp;&nbsp;<span class="note">← כניסה / הרשמה</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">search_results_page.py</span>&nbsp;<span class="note">← תוצאות חיפוש + Paging</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">product_page.py</span>&nbsp;<span class="note">← דף מוצר + Add to Cart</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">cart_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← עגלת קניות + אימות סכום</span><br>
+      &nbsp;&nbsp;├── <span class="folder">tests/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">conftest.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← הגדרות Pytest + Fixtures</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">test_shopping.py</span>&nbsp;<span class="note">← הבדיקה הראשית</span><br>
+      &nbsp;&nbsp;├── <span class="folder">utils/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">price_parser.py</span>&nbsp;<span class="note">← פרסור מחירים ($123.00 → 123.0)</span><br>
+      &nbsp;&nbsp;├── <span class="folder">reports/allure-results/</span>&nbsp;<span class="note">← תוצאות Allure</span><br>
+      &nbsp;&nbsp;├── <span class="folder">screenshots/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← צילומי מסך אוטומטיים</span><br>
+      &nbsp;&nbsp;├── <span class="file">pytest.ini</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← הגדרות Pytest</span><br>
+      &nbsp;&nbsp;├── <span class="file">ReadMeAIBugs.md</span>&nbsp;&nbsp;&nbsp;<span class="note">← ניתוח הבאגים</span><br>
+      &nbsp;&nbsp;└── <span class="file">README.md</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← תיעוד הפרויקט</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 3. מושגי יסוד                            -->
+  <!-- ══════════════════════════════════════════ -->
+  <section>
+    <h2><span class="icon">🧠</span> מושגי יסוד – POM / OOP / Data-Driven</h2>
+
+    <div class="concept">
+      <h4>📐 Page Object Model (POM)</h4>
+      <p>
+        במקום לכתוב <code>page.locator("#search input").fill("Apple")</code> ישירות בתוך הבדיקה,
+        אנחנו יוצרים <strong>מחלקה נפרדת לכל דף</strong> שמכילה את כל ה-locators והפעולות שלו.
+        כך, אם ה-UI משתנה – אנחנו מתקנים רק במחלקת הדף, לא בכל הבדיקות.
+      </p>
+    </div>
+
+    <div class="concept">
+      <h4>🧱 OOP – תכנות מונחה עצמים</h4>
+      <p>
+        כל Page Object הוא <strong>מחלקה (class)</strong>. כל המחלקות יורשות מ-<code>BasePage</code>
+        שמכיל פעולות משותפות (navigate, screenshot). זה עקרון ה-<strong>ירושה (Inheritance)</strong>.
+      </p>
+    </div>
+
+    <div class="concept">
+      <h4>📊 Data-Driven Testing</h4>
+      <p>
+        נתוני הבדיקה (query, maxPrice, credentials) נשמרים בקובץ <code>config/test_data.json</code>
+        נפרד מהקוד. כך אפשר לשנות נתונים בלי לגעת בלוגיקה, ולהריץ אותה בדיקה על פרמטרים שונים.
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 4. קבצי הקוד                             -->
+  <!-- ══════════════════════════════════════════ -->
+  <section>
+    <h2><span class="icon">📄</span> הסבר על כל קובץ</h2>
+
+    <!-- test_data.json -->
+    <div class="card">
+      <h3>📋 config/test_data.json – נתוני הבדיקה</h3>
+      <p>כל הפרמטרים של הבדיקה מוגדרים כאן. שינוי כאן = שינוי התנהגות הבדיקה, בלי לגעת בקוד.</p>
+      <pre>{
+  <span class="str">"base_url"</span>: <span class="str">"https://tutorialsninja.com/demo/"</span>,
+  <span class="str">"credentials"</span>: {
+    <span class="str">"email"</span>: <span class="str">"testuser@automation.com"</span>,
+    <span class="str">"password"</span>: <span class="str">"Test123!"</span>,
+    <span class="str">"auto_register"</span>: <span class="kw">true</span>   <span class="cm">// אם המשתמש לא קיים, ירשם אוטומטית</span>
+  },
+  <span class="str">"search"</span>: {
+    <span class="str">"query"</span>: <span class="str">"Apple"</span>,         <span class="cm">// מה לחפש</span>
+    <span class="str">"max_price"</span>: <span class="num">200</span>,       <span class="cm">// מחיר מקסימלי בדולר</span>
+    <span class="str">"limit"</span>: <span class="num">5</span>            <span class="cm">// כמה מוצרים מקסימום לאסוף</span>
+  }
+}</pre>
+    </div>
+
+    <!-- base_page.py -->
+    <div class="card">
+      <h3>🏗️ pages/base_page.py – מחלקת הבסיס</h3>
+      <p>
+        כל Page Object יורש ממחלקה זו. היא מכילה את <code>page</code> (אובייקט Playwright)
+        ופעולות משותפות. זה עקרון <strong>DRY – Don't Repeat Yourself</strong>.
+      </p>
+      <pre><span class="kw">from</span> playwright.sync_api <span class="kw">import</span> Page
+<span class="kw">import</span> os
+
+<span class="kw">class</span> <span class="cl">BasePage</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, page: <span class="cl">Page</span>):
+        self.page = page           <span class="cm"># האובייקט שדרכו שולטים על הדפדפן</span>
+
+    <span class="kw">def</span> <span class="fn">navigate</span>(self, url: <span class="cl">str</span>):
+        self.page.goto(url)        <span class="cm"># ניווט לכתובת URL</span>
+
+    <span class="kw">def</span> <span class="fn">take_screenshot</span>(self, name: <span class="cl">str</span>):
+        os.makedirs(<span class="str">"screenshots"</span>, exist_ok=<span class="kw">True</span>)
+        self.page.screenshot(path=<span class="fn">f</span><span class="str">"screenshots/{name}.png"</span>)</pre>
+    </div>
+
+    <!-- home_page.py -->
+    <div class="card">
+      <h3>🏠 pages/home_page.py – דף הבית</h3>
+      <p>
+        מטפל בחיפוש מוצרים. שימו לב ל-<strong>locators</strong> – ה-CSS selectors שמוצאים אלמנטים בדף.
+      </p>
+      <pre><span class="kw">from</span> pages.base_page <span class="kw">import</span> BasePage
+
+<span class="kw">class</span> <span class="cl">HomePage</span>(<span class="cl">BasePage</span>):
+    <span class="cm"># ── Locators ────────────────────────────────</span>
+    <span class="var">SEARCH_INPUT</span>  = <span class="str">"input[name='search']"</span>
+    <span class="var">SEARCH_BUTTON</span> = <span class="str">"#search button[type='button']"</span>
+    <span class="var">BASE_URL</span>      = <span class="str">"https://tutorialsninja.com/demo/"</span>
+
+    <span class="cm"># ── Methods ─────────────────────────────────</span>
+    <span class="kw">def</span> <span class="fn">open</span>(self):
+        self.navigate(self.<span class="var">BASE_URL</span>)
+        self.page.wait_for_load_state(<span class="str">"networkidle"</span>)   <span class="cm"># מחכה שהדף ייטען</span>
+
+    <span class="kw">def</span> <span class="fn">search</span>(self, query: <span class="cl">str</span>):
+        self.page.fill(self.<span class="var">SEARCH_INPUT</span>, query)        <span class="cm"># מקליד בשדה החיפוש</span>
+        self.page.click(self.<span class="var">SEARCH_BUTTON</span>)             <span class="cm"># לוחץ על כפתור החיפוש</span>
+        self.page.wait_for_load_state(<span class="str">"networkidle"</span>)</pre>
+    </div>
+
+    <!-- login_page.py -->
+    <div class="card">
+      <h3>🔐 pages/login_page.py – כניסה לאתר</h3>
+      <p>
+        מכיל לוגיקה של Login <strong>ו</strong>-Register. הפונקציה <code>login_or_register</code>
+        מנסה להיכנס – ואם נכשלת (המשתמש לא קיים), רושמת חדש.
+      </p>
+      <pre><span class="kw">import</span> time
+<span class="kw">from</span> pages.base_page <span class="kw">import</span> BasePage
+
+<span class="kw">class</span> <span class="cl">LoginPage</span>(<span class="cl">BasePage</span>):
+    <span class="var">LOGIN_URL</span>    = <span class="str">"https://tutorialsninja.com/demo/index.php?route=account/login"</span>
+    <span class="var">REGISTER_URL</span> = <span class="str">"https://tutorialsninja.com/demo/index.php?route=account/register"</span>
+
+    <span class="kw">def</span> <span class="fn">login</span>(self, email: <span class="cl">str</span>, password: <span class="cl">str</span>) -> <span class="cl">bool</span>:
+        self.navigate(self.<span class="var">LOGIN_URL</span>)
+        self.page.fill(<span class="str">"#input-email"</span>, email)
+        self.page.fill(<span class="str">"#input-password"</span>, password)
+        self.page.click(<span class="str">"input[type='submit'][value='Login']"</span>)
+        self.page.wait_for_load_state(<span class="str">"networkidle"</span>)
+        <span class="cm"># בדיקה שהכניסה הצליחה – אם יש קישור Logout בתפריט</span>
+        <span class="kw">return</span> self.page.locator(<span class="str">"a[href*='account/logout']"</span>).count() > <span class="num">0</span>
+
+    <span class="kw">def</span> <span class="fn">register</span>(self, email: <span class="cl">str</span>, password: <span class="cl">str</span>) -> <span class="cl">bool</span>:
+        self.navigate(self.<span class="var">REGISTER_URL</span>)
+        self.page.fill(<span class="str">"#input-firstname"</span>, <span class="str">"Test"</span>)
+        self.page.fill(<span class="str">"#input-lastname"</span>,  <span class="str">"User"</span>)
+        self.page.fill(<span class="str">"#input-email"</span>,     email)
+        self.page.fill(<span class="str">"#input-telephone"</span>, <span class="str">"0501234567"</span>)
+        self.page.fill(<span class="str">"#input-password"</span>,  password)
+        self.page.fill(<span class="str">"#input-confirm"</span>,   password)
+        self.page.check(<span class="str">"input[name='agree']"</span>)   <span class="cm"># הסכמה לתנאים</span>
+        self.page.click(<span class="str">"input[value='Continue']"</span>)
+        self.page.wait_for_load_state(<span class="str">"networkidle"</span>)
+        <span class="kw">return</span> <span class="str">"success"</span> <span class="kw">in</span> self.page.url
+
+    <span class="kw">def</span> <span class="fn">login_or_register</span>(self, email: <span class="cl">str</span>, password: <span class="cl">str</span>):
+        <span class="kw">if not</span> self.login(email, password):
+            <span class="cm"># כניסה נכשלה – ניצור חשבון חדש עם אימייל ייחודי</span>
+            unique_email = <span class="fn">f</span><span class="str">"test_{int(time.time())}@auto.com"</span>
+            self.register(unique_email, password)
+            self.login(unique_email, password)</pre>
+    </div>
+
+    <!-- search_results_page.py -->
+    <div class="card">
+      <h3>🔍 pages/search_results_page.py – תוצאות חיפוש</h3>
+      <p>
+        הפונקציה המרכזית כאן: <code>get_items_under_price</code>.<br>
+        היא עוברת על כל המוצרים בדף, מסננת לפי מחיר, ומטפלת ב-<strong>Pagination</strong>
+        (מעבר לדף הבא אם צריך עוד מוצרים).
+      </p>
+      <pre><span class="kw">import</span> re
+<span class="kw">from</span> pages.base_page <span class="kw">import</span> BasePage
+<span class="kw">from</span> utils.price_parser <span class="kw">import</span> parse_price
+
+<span class="kw">class</span> <span class="cl">SearchResultsPage</span>(<span class="cl">BasePage</span>):
+    <span class="var">PRODUCT_CARD</span> = <span class="str">"div.product-layout"</span>
+    <span class="var">PRODUCT_LINK</span> = <span class="str">"div.caption h4 a"</span>
+    <span class="var">PRICE</span>        = <span class="str">"p.price"</span>
+    <span class="var">PRICE_NEW</span>    = <span class="str">"span.price-new"</span>   <span class="cm"># מחיר אחרי הנחה</span>
+
+    <span class="kw">def</span> <span class="fn">get_items_under_price</span>(self, max_price: <span class="cl">float</span>, limit: <span class="cl">int</span> = <span class="num">5</span>) -> <span class="cl">list</span>[<span class="cl">str</span>]:
+        urls = []
+
+        <span class="kw">while</span> <span class="fn">len</span>(urls) < limit:
+            <span class="cm"># קבל את כל כרטיסי המוצרים בדף הנוכחי</span>
+            cards = self.page.locator(self.<span class="var">PRODUCT_CARD</span>).all()
+
+            <span class="kw">for</span> card <span class="kw">in</span> cards:
+                <span class="kw">if</span> <span class="fn">len</span>(urls) >= limit:
+                    <span class="kw">break</span>
+
+                <span class="cm"># נסה לקרוא מחיר הנחה, אחרת מחיר רגיל</span>
+                price_el = card.locator(self.<span class="var">PRICE_NEW</span>)
+                price_text = (price_el.first.inner_text()
+                              <span class="kw">if</span> price_el.count() > <span class="num">0</span>
+                              <span class="kw">else</span> card.locator(self.<span class="var">PRICE</span>).first.inner_text())
+
+                price = parse_price(price_text)   <span class="cm"># "$110.00" → 110.0</span>
+
+                <span class="kw">if</span> <span class="num">0</span> < price <= max_price:
+                    href = card.locator(self.<span class="var">PRODUCT_LINK</span>).first.get_attribute(<span class="str">"href"</span>)
+                    <span class="kw">if</span> href:
+                        urls.append(href)
+
+            <span class="cm"># האם יש דף הבא? מחפש כפתור ">" ב-pagination</span>
+            next_btn = <span class="kw">None</span>
+            <span class="kw">for</span> a <span class="kw">in</span> self.page.locator(<span class="str">"ul.pagination a"</span>).all():
+                <span class="kw">if</span> a.inner_text().strip() == <span class="str">">"</span>:
+                    next_btn = a
+                    <span class="kw">break</span>
+
+            <span class="kw">if</span> next_btn:
+                next_btn.click()
+                self.page.wait_for_load_state(<span class="str">"networkidle"</span>)
+            <span class="kw">else</span>:
+                <span class="kw">break</span>   <span class="cm"># אין יותר עמודים</span>
+
+        <span class="kw">return</span> urls[:limit]</pre>
+    </div>
+
+    <!-- product_page.py -->
+    <div class="card">
+      <h3>🛍️ pages/product_page.py – דף מוצר</h3>
+      <p>
+        נכנסים לכל URL, בוחרים וריאנטים אם קיימים (dropdown/radio) ולוחצים "Add to Cart".
+        מחכים להופעת הודעת הצלחה ושומרים צילום מסך.
+      </p>
+      <pre><span class="kw">import</span> random
+<span class="kw">from</span> pages.base_page <span class="kw">import</span> BasePage
+
+<span class="kw">class</span> <span class="cl">ProductPage</span>(<span class="cl">BasePage</span>):
+    <span class="var">ADD_TO_CART</span>   = <span class="str">"#button-cart"</span>
+    <span class="var">SUCCESS_ALERT</span> = <span class="str">"#alert .alert-success"</span>
+
+    <span class="kw">def</span> <span class="fn">_select_variants</span>(self):
+        <span class="cm"># בחירה אקראית מתוך Dropdowns</span>
+        <span class="kw">for</span> sel <span class="kw">in</span> self.page.locator(<span class="str">"select[name^='option']"</span>).all():
+            opts = sel.locator(<span class="str">"option[value!='']"</span>).all()
+            <span class="kw">if</span> opts:
+                sel.select_option(random.choice(opts).get_attribute(<span class="str">"value"</span>))
+
+        <span class="cm"># בחירה ראשונה מתוך Radio buttons</span>
+        seen = <span class="fn">set</span>()
+        <span class="kw">for</span> radio <span class="kw">in</span> self.page.locator(<span class="str">"input[type='radio'][name^='option']"</span>).all():
+            name = radio.get_attribute(<span class="str">"name"</span>)
+            <span class="kw">if</span> name <span class="kw">not in</span> seen:
+                seen.add(name)
+                radio.check()
+
+    <span class="kw">def</span> <span class="fn">add_to_cart</span>(self, url: <span class="cl">str</span>) -> <span class="cl">bool</span>:
+        self.navigate(url)
+        self.page.wait_for_load_state(<span class="str">"networkidle"</span>)
+        self._select_variants()
+        self.page.locator(self.<span class="var">ADD_TO_CART</span>).click()
+
+        <span class="kw">try</span>:
+            self.page.wait_for_selector(self.<span class="var">SUCCESS_ALERT</span>, timeout=<span class="num">5000</span>)
+            self.take_screenshot(<span class="fn">f</span><span class="str">"added_{hash(url) % 9999}"</span>)
+            <span class="kw">return True</span>
+        <span class="kw">except</span>:
+            self.take_screenshot(<span class="fn">f</span><span class="str">"failed_{hash(url) % 9999}"</span>)
+            <span class="kw">return False</span></pre>
+    </div>
+
+    <!-- cart_page.py -->
+    <div class="card">
+      <h3>🛒 pages/cart_page.py – עגלת קניות</h3>
+      <p>
+        ניווט לדף העגלה, קריאת שורת ה-"Total" מהטבלה, ופרסור הסכום.
+      </p>
+      <pre><span class="kw">from</span> pages.base_page <span class="kw">import</span> BasePage
+<span class="kw">from</span> utils.price_parser <span class="kw">import</span> parse_price
+
+<span class="kw">class</span> <span class="cl">CartPage</span>(<span class="cl">BasePage</span>):
+    <span class="var">URL</span> = <span class="str">"https://tutorialsninja.com/demo/index.php?route=checkout/cart"</span>
+
+    <span class="kw">def</span> <span class="fn">get_total</span>(self) -> <span class="cl">float</span>:
+        self.navigate(self.<span class="var">URL</span>)
+        self.page.wait_for_load_state(<span class="str">"networkidle"</span>)
+        self.take_screenshot(<span class="str">"cart_page"</span>)
+
+        <span class="cm"># מחפשים את שורת "Total" בטבלת הסיכום</span>
+        <span class="kw">for</span> row <span class="kw">in</span> self.page.locator(<span class="str">"table tr"</span>).all():
+            cells = row.locator(<span class="str">"td"</span>).all()
+            <span class="kw">if</span> <span class="fn">len</span>(cells) >= <span class="num">2</span>:
+                label = cells[<span class="num">0</span>].inner_text().strip().lower()
+                <span class="kw">if</span> label == <span class="str">"total"</span>:          <span class="cm"># "total" ולא "sub-total"</span>
+                    <span class="kw">return</span> parse_price(cells[<span class="num">-1</span>].inner_text())
+        <span class="kw">return</span> <span class="num">0.0</span></pre>
+    </div>
+
+    <!-- price_parser.py -->
+    <div class="card">
+      <h3>🔢 utils/price_parser.py – פרסור מחירים</h3>
+      <p>
+        ממיר טקסט מחיר מהדף (כגון <span class="tag">"$110.00 Ex Tax: $100.00"</span>) למספר עשרוני.
+        משמש בכל דף שצריך לקרוא מחיר.
+      </p>
+      <pre><span class="kw">import</span> re
+
+<span class="kw">def</span> <span class="fn">parse_price</span>(text: <span class="cl">str</span>) -> <span class="cl">float</span>:
+    <span class="cm">"""
+    "$110.00 Ex Tax: $100.00"  →  110.0
+    "$1,299.00"                →  1299.0
+    """</span>
+    match = re.search(<span class="str">r'\$?([\d,]+\.?\d*)'</span>, text.split(<span class="str">'\n'</span>)[<span class="num">0</span>])
+    <span class="kw">if</span> match:
+        <span class="kw">return</span> <span class="fn">float</span>(match.group(<span class="num">1</span>).replace(<span class="str">','</span>, <span class="str">''</span>))
+    <span class="kw">return</span> <span class="num">0.0</span></pre>
+    </div>
+
+    <!-- test_shopping.py -->
+    <div class="card">
+      <h3>✅ tests/test_shopping.py – הבדיקה הראשית</h3>
+      <p>
+        כל 4 הפונקציות ממומשות כאן. הבדיקה עוברת את כל תרחיש הקנייה מקצה לקצה.
+        שימו לב לדקורטורים של <strong>Allure</strong> שמייצרים תיעוד עשיר בדוח.
+      </p>
+      <pre><span class="kw">import</span> allure
+<span class="kw">import</span> pytest
+<span class="kw">from</span> playwright.sync_api <span class="kw">import</span> Page
+<span class="kw">from</span> pages.home_page <span class="kw">import</span> HomePage
+<span class="kw">from</span> pages.login_page <span class="kw">import</span> LoginPage
+<span class="kw">from</span> pages.search_results_page <span class="kw">import</span> SearchResultsPage
+<span class="kw">from</span> pages.product_page <span class="kw">import</span> ProductPage
+<span class="kw">from</span> pages.cart_page <span class="kw">import</span> CartPage
+
+<span class="cm"># ── 1. הזדהות ──────────────────────────────────────────</span>
+<span class="kw">def</span> <span class="fn">login</span>(page: <span class="cl">Page</span>, email: <span class="cl">str</span>, password: <span class="cl">str</span>):
+    <span class="cl">LoginPage</span>(page).login_or_register(email, password)
+
+<span class="cm"># ── 2. חיפוש לפי מחיר ─────────────────────────────────</span>
+<span class="kw">def</span> <span class="fn">search_items_by_name_under_price</span>(
+    page: <span class="cl">Page</span>, query: <span class="cl">str</span>, max_price: <span class="cl">float</span>, limit: <span class="cl">int</span> = <span class="num">5</span>
+) -> <span class="cl">list</span>[<span class="cl">str</span>]:
+    home = <span class="cl">HomePage</span>(page)
+    home.open()
+    home.search(query)
+    <span class="kw">return</span> <span class="cl">SearchResultsPage</span>(page).get_items_under_price(max_price, limit)
+
+<span class="cm"># ── 3. הוספה לסל ──────────────────────────────────────</span>
+<span class="kw">def</span> <span class="fn">add_items_to_cart</span>(page: <span class="cl">Page</span>, urls: <span class="cl">list</span>[<span class="cl">str</span>]):
+    product = <span class="cl">ProductPage</span>(page)
+    <span class="kw">for</span> url <span class="kw">in</span> urls:
+        <span class="kw">with</span> allure.step(<span class="fn">f</span><span class="str">"Adding: {url}"</span>):
+            product.add_to_cart(url)
+
+<span class="cm"># ── 4. אימות סכום ─────────────────────────────────────</span>
+<span class="kw">def</span> <span class="fn">assert_cart_total_not_exceeds</span>(
+    page: <span class="cl">Page</span>, budget_per_item: <span class="cl">float</span>, items_count: <span class="cl">int</span>
+):
+    total = <span class="cl">CartPage</span>(page).get_total()
+    threshold = budget_per_item * items_count
+    <span class="kw">assert</span> total <= threshold, \
+        <span class="fn">f</span><span class="str">"Cart total ${total:.2f} exceeds budget ${threshold:.2f}"</span>
+
+<span class="cm"># ── בדיקת E2E ─────────────────────────────────────────</span>
+<span class="kw">class</span> <span class="cl">TestShoppingFlow</span>:
+
+    <span class="deco">@allure.title</span>(<span class="str">"Full E2E Shopping Flow"</span>)
+    <span class="deco">@allure.description</span>(<span class="str">"Search → Add to Cart → Assert Total"</span>)
+    <span class="kw">def</span> <span class="fn">test_full_flow</span>(self, page: <span class="cl">Page</span>, test_data: <span class="cl">dict</span>):
+        creds  = test_data[<span class="str">"credentials"</span>]
+        search = test_data[<span class="str">"search"</span>]
+
+        <span class="kw">with</span> allure.step(<span class="str">"שלב 1: הזדהות"</span>):
+            login(page, creds[<span class="str">"email"</span>], creds[<span class="str">"password"</span>])
+
+        <span class="kw">with</span> allure.step(<span class="str">"שלב 2: חיפוש מוצרים"</span>):
+            urls = search_items_by_name_under_price(
+                page, search[<span class="str">"query"</span>], search[<span class="str">"max_price"</span>], search[<span class="str">"limit"</span>]
+            )
+            <span class="kw">assert</span> <span class="fn">len</span>(urls) > <span class="num">0</span>, <span class="str">"לא נמצאו מוצרים במחיר המבוקש"</span>
+
+        <span class="kw">with</span> allure.step(<span class="str">"שלב 3: הוספה לסל"</span>):
+            add_items_to_cart(page, urls)
+
+        <span class="kw">with</span> allure.step(<span class="str">"שלב 4: אימות סכום"</span>):
+            assert_cart_total_not_exceeds(page, search[<span class="str">"max_price"</span>], <span class="fn">len</span>(urls))</pre>
+    </div>
+
+    <!-- conftest.py -->
+    <div class="card">
+      <h3>⚙️ tests/conftest.py – הגדרות Pytest</h3>
+      <p>
+        <strong>Fixtures</strong> הן פונקציות שמכינות תנאים לפני הבדיקה.
+        Pytest-Playwright כבר מספק את <code>page</code> fixture – כאן אנחנו מרחיבים אותו.
+      </p>
+      <pre><span class="kw">import</span> pytest, json, allure
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)    <span class="cm"># נטען פעם אחת לכל session</span>
+<span class="kw">def</span> <span class="fn">test_data</span>():
+    <span class="kw">with</span> <span class="fn">open</span>(Path(<span class="str">"config/test_data.json"</span>), encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+        <span class="kw">return</span> json.load(f)
+
+<span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
+<span class="kw">def</span> <span class="fn">browser_context_args</span>(browser_context_args):
+    <span class="kw">return</span> {**browser_context_args, <span class="str">"viewport"</span>: {<span class="str">"width"</span>: <span class="num">1280</span>, <span class="str">"height"</span>: <span class="num">800</span>}}
+
+<span class="cm"># שמירת צילום מסך בכישלון</span>
+<span class="deco">@pytest.hookimpl</span>(tryfirst=<span class="kw">True</span>, hookwrapper=<span class="kw">True</span>)
+<span class="kw">def</span> <span class="fn">pytest_runtest_makereport</span>(item, call):
+    outcome = <span class="kw">yield</span>
+    rep = outcome.get_result()
+    <span class="fn">setattr</span>(item, <span class="fn">f</span><span class="str">"rep_{rep.when}"</span>, rep)
+
+<span class="deco">@pytest.fixture</span>(autouse=<span class="kw">True</span>)   <span class="cm"># רץ אוטומטית לכל בדיקה</span>
+<span class="kw">def</span> <span class="fn">screenshot_on_failure</span>(page, request):
+    <span class="kw">yield</span>
+    <span class="kw">if</span> <span class="fn">getattr</span>(request.node, <span class="str">"rep_call"</span>, <span class="kw">None</span>) <span class="kw">and</span> request.node.rep_call.failed:
+        path = <span class="fn">f</span><span class="str">"screenshots/FAIL_{request.node.name}.png"</span>
+        page.screenshot(path=path)
+        allure.attach.file(path, attachment_type=allure.attachment_type.<span class="var">PNG</span>)</pre>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 5. ניתוח הבאגים                          -->
+  <!-- ══════════════════════════════════════════ -->
+  <section>
+    <h2><span class="icon">🐛</span> ניתוח הבאגים – ReadMeAIBugs</h2>
+    <p>הקוד הבא נכתב על ידי כלי AI ומכיל 5 בעיות שצריך לזהות:</p>
+
+    <pre style="margin-bottom:24px">
+<span class="kw">from</span> playwright.sync_api <span class="kw">import</span> sync_playwright
+<span class="kw">from</span> selenium <span class="kw">import</span> webdriver   <span class="cm" style="color:#fc8181">← באג 1</span>
+<span class="kw">import</span> time
+
+<span class="kw">def</span> <span class="fn">test_search_functionality</span>():
+    browser = <span class="fn">sync_playwright</span>().<span class="fn">start</span>().chromium.<span class="fn">launch</span>()  <span class="cm" style="color:#fc8181">← באג 2</span>
+    page = browser.<span class="fn">new_page</span>()
+    page.<span class="fn">goto</span>(<span class="str">"https://example.com"</span>)
+    time.<span class="fn">sleep</span>(<span class="num">2</span>)                    <span class="cm" style="color:#f6ad55">← באג 3</span>
+    search_box = page.<span class="fn">locator</span>(<span class="str">"#search"</span>)
+    search_box.<span class="fn">fill</span>(<span class="str">"playwright testing"</span>)
+    page.<span class="fn">locator</span>(<span class="str">".button"</span>).<span class="fn">click</span>()
+    time.<span class="fn">sleep</span>(<span class="num">3</span>)                    <span class="cm" style="color:#f6ad55">← באג 3</span>
+    results = page.<span class="fn">locator</span>(<span class="str">".result-item"</span>)  <span class="cm" style="color:#f6e05e">← באג 4</span>
+    browser.<span class="fn">close</span>()              <span class="cm" style="color:#fc8181">← באג 5</span></pre>
+
+    <div class="bug-card">
+      <h4>🔴 באג 1 – ייבוא Selenium מיותר ולא בשימוש</h4>
+      <p><strong>שורה 2:</strong> <code>from selenium import webdriver</code></p>
+      <p>
+        <code>webdriver</code> מיובא אך לא משמש <strong>בשום מקום</strong> בקוד.
+        זה קוד מת (dead code) שיוצר בלבול (מערבבים Playwright עם Selenium),
+        ויגרום ל-<code>ModuleNotFoundError</code> אם Selenium לא מותקן.
+      </p>
+      <div class="fix">
+        <strong>תיקון:</strong> מחיקת השורה לחלוטין.<br>
+        <code>from selenium import webdriver  # ← להסיר</code>
+      </div>
+    </div>
+
+    <div class="bug-card">
+      <h4>🔴 באג 2 – דליפת משאבים: Playwright לא נסגר</h4>
+      <p><strong>שורה 5:</strong> <code>browser = sync_playwright().start().chromium.launch()</code></p>
+      <p>
+        <code>sync_playwright().start()</code> מחזיר אובייקט Playwright שחייב להיסגר עם <code>.stop()</code>.
+        כאן הוא <strong>לא נשמר במשתנה</strong>, ולכן לעולם לא ייסגר – תהליכי דפדפן ישארו ברקע.
+      </p>
+      <div class="fix">
+        <strong>תיקון – שימוש ב-context manager (מומלץ):</strong>
+        <pre><span class="kw">with</span> <span class="fn">sync_playwright</span>() <span class="kw">as</span> p:
+    browser = p.chromium.<span class="fn">launch</span>()
+    page = browser.<span class="fn">new_page</span>()
+    <span class="cm"># ... הקוד כאן ...</span></pre>
+        ה-<code>with</code> block מבטיח ש-Playwright ייסגר גם אם יש שגיאה.
+      </div>
+    </div>
+
+    <div class="bug-card" style="border-color: #f6ad55">
+      <h4>🟠 באג 3 – שימוש ב-time.sleep() (Anti-Pattern)</h4>
+      <p><strong>שורות 9, 15:</strong> <code>time.sleep(2)</code> ו-<code>time.sleep(3)</code></p>
+      <p>
+        Playwright כולל <strong>המתנה אוטומטית</strong> – הוא ממתין שאלמנטים יהיו מוכנים לפני כל פעולה.
+        שימוש ב-<code>time.sleep()</code> גורם לבדיקות:
+      </p>
+      <ul>
+        <li><strong>שבירות (Flaky)</strong> – אם הדף לוקח יותר/פחות זמן ממה שנקבע</li>
+        <li><strong>איטיות</strong> – מחכים 5 שניות גם כשהדף נטען ב-0.5 שניות</li>
+      </ul>
+      <div class="fix">
+        <strong>תיקון:</strong> הסרת ה-sleep לחלוטין. אם צריך המתנה מפורשת:<br>
+        <code>page.wait_for_load_state("networkidle")</code> או
+        <code>page.wait_for_selector(".result-item")</code>
+      </div>
+    </div>
+
+    <div class="bug-card" style="border-color: #f6e05e">
+      <h4>🟡 באג 4 – אין Assert – הבדיקה לא בודקת כלום</h4>
+      <p><strong>שורה 18:</strong> <code>results = page.locator(".result-item")</code></p>
+      <p>
+        <code>page.locator()</code> מחזיר <strong>אובייקט Locator</strong> (עצלן – לא מחפש עדיין).
+        אין שום <code>assert</code> בקוד. הבדיקה תמיד תעבור (PASS) גם אם לא נמצאו תוצאות!
+      </p>
+      <div class="fix">
+        <strong>תיקון:</strong>
+        <pre>results = page.locator(<span class="str">".result-item"</span>)
+<span class="kw">assert</span> results.count() > <span class="num">0</span>, <span class="str">"Expected search results, found none"</span>
+<span class="cm"># או עם Playwright's expect API:</span>
+<span class="kw">from</span> playwright.sync_api <span class="kw">import</span> expect
+expect(results).to_have_count(<span class="num">10</span>)</pre>
+      </div>
+    </div>
+
+    <div class="bug-card">
+      <h4>🔴 באג 5 – browser.close() בלי try/finally</h4>
+      <p><strong>שורה 20:</strong> <code>browser.close()</code></p>
+      <p>
+        אם <strong>כל שורה</strong> לפני זה זורקת Exception, הקוד יקרוס לפני ש-<code>browser.close()</code>
+        ירוץ. הדפדפן ישאר פתוח ברקע ויבזבז זיכרון.
+      </p>
+      <div class="fix">
+        <strong>תיקון – שימוש ב-try/finally:</strong>
+        <pre><span class="kw">try</span>:
+    <span class="cm"># ... כל הקוד ...</span>
+<span class="kw">finally</span>:
+    browser.<span class="fn">close</span>()   <span class="cm"># ירוץ תמיד, גם אם הייתה שגיאה</span></pre>
+        <strong>הפתרון הטוב ביותר:</strong> שימוש ב-context manager מ-באג 2 – שפותר גם את זה אוטומטית.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 6. הרצת הפרויקט                          -->
+  <!-- ══════════════════════════════════════════ -->
+  <section>
+    <h2><span class="icon">▶️</span> איך מריצים את הפרויקט</h2>
+
+    <div class="card">
+      <h3>שלב 1 – התקנת דפדפן Playwright</h3>
+      <p>יש להריץ פעם אחת בלבד:</p>
+      <div class="cmd">venv\Scripts\playwright install chromium</div>
+    </div>
+
+    <div class="card">
+      <h3>שלב 2 – הרצת הבדיקות</h3>
+      <div class="grid-2">
+        <div>
+          <p><strong>הרצה בסיסית (ללא דפדפן):</strong></p>
+          <div class="cmd">venv\Scripts\pytest tests\ -v</div>
+        </div>
+        <div>
+          <p><strong>הרצה עם דפדפן גלוי:</strong></p>
+          <div class="cmd">venv\Scripts\pytest tests\ -v <span>--headed</span></div>
+        </div>
+      </div>
+      <p>עם דוח Allure:</p>
+      <div class="cmd">venv\Scripts\pytest tests\ -v --alluredir=reports\allure-results</div>
+    </div>
+
+    <div class="card">
+      <h3>שלב 3 – יצירת דוח Allure</h3>
+      <div class="cmd">allure generate reports\allure-results -o reports\allure-report --clean</div>
+      <div class="cmd" style="margin-top:8px">allure open reports\allure-report</div>
+      <p style="color:var(--muted); font-size:0.88rem; margin-top:10px">
+        * Allure CLI צריך להיות מותקן בנפרד: <code>npm install -g allure-commandline</code>
+      </p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════ -->
+  <!-- 7. קריטריוני הערכה                       -->
+  <!-- ══════════════════════════════════════════ -->
+  <section>
+    <h2><span class="icon">📊</span> קריטריוני הערכה</h2>
+    <div class="grid-2">
+      <div class="concept">
+        <h4>45% – ארכיטקטורה וניקיון קוד</h4>
+        <p>POM נכון, OOP, SRP (כל מחלקה עושה דבר אחד), Utils נפרדים.</p>
+      </div>
+      <div class="concept">
+        <h4>35% – Robustness & Smart Locators</h4>
+        <p>התמודדות עם דינמיות, וריאנטים, Paging, פרסור מחיר.</p>
+      </div>
+      <div class="concept">
+        <h4>15% – Data-Driven</h4>
+        <p>קונפיגורציה ב-JSON, ENV, פרופילים שונים.</p>
+      </div>
+      <div class="concept">
+        <h4>15% – דוחות ותיעוד</h4>
+        <p>README ברור, Allure/HTML reports, צילומי מסך.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  מדריך זה נכתב עבור מטלת פרויקט אוטומציה | Python + Playwright + POM | tutorialsninja.com/demo
+</footer>
+
+</body>
+</html>

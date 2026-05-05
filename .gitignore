@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+reports/allure-results/
+reports/allure-report/
+screenshots/
+*.egg-info/
+.env
+word/
+doc_content.txt
+doc_full.txt
