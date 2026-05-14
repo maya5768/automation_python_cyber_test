@@ -1,0 +1,22 @@
+{
+  "test_cases": [
+    {
+      "id":       "valid_user",
+      "email":    "test_auto_maya@auto.com",
+      "password": "Test123!",
+      "expected": "success"
+    },
+    {
+      "id":       "wrong_password",
+      "email":    "test_auto_maya@auto.com",
+      "password": "WrongPass",
+      "expected": "failure"
+    },
+    {
+      "id":       "empty_fields",
+      "email":    "",
+      "password": "",
+      "expected": "failure"
+    }
+  ]
+}

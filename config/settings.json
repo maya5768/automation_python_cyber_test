@@ -1,0 +1,7 @@
+{
+  "base_url": "https://tutorialsninja.com/demo/",
+  "profiles": {
+    "default": { "query": "Apple",   "max_price": 200 },
+    "ci":      { "query": "Samsung", "max_price": 150 }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "test_cases": [
+    { "id": "within_budget", "query": "Apple",   "max_price": 200, "budget_per_item": 200 },
+    { "id": "tight_budget",  "query": "Samsung", "max_price": 150, "budget_per_item": 150 }
+  ]
+}

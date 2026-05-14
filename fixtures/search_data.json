@@ -1,0 +1,7 @@
+{
+  "test_cases": [
+    { "id": "apple_under_200",  "query": "Apple",   "max_price": 200, "limit": 5, "expect_results": true  },
+    { "id": "samsung_under_100","query": "Samsung", "max_price": 100, "limit": 3, "expect_results": true  },
+    { "id": "no_results",       "query": "XYZ999",  "max_price": 1,   "limit": 5, "expect_results": false }
+  ]
+}
