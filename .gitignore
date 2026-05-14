@@ -3,8 +3,7 @@ __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
-reports/allure-results/
-reports/allure-report/
+reports/
 screenshots/
 *.egg-info/
 .env
