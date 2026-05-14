@@ -387,9 +387,9 @@
       <p>
         ב-pytest יש הבחנה חשובה שמתחילים מרבה לערבב:<br><br>
         <strong><code>conftest.py</code></strong> = <em>פונקציות</em> בלבד –
-        <code>@pytest.fixture</code>, setup/teardown, browser, page.<br>
+        <code>@pytest.fixture</code> (setup/teardown, browser) + <code>load_cases()</code> (טעינת JSON).<br>
         <strong><code>fixtures/</code></strong> = <em>קבצי נתונים</em> בלבד –
-        JSON/YAML/CSV שהפונקציות טוענות ומעבירות לבדיקות.
+        JSON עם מערך <code>test_cases</code> שה-<code>@pytest.mark.parametrize</code> טוען דרך <code>load_cases()</code>.
       </p>
     </div>
   </section>
@@ -415,31 +415,61 @@
 
     <!-- fixtures/ -->
     <div class="card">
-      <h3>📂 fixtures/ – נתוני בדיקה לכל דף בנפרד</h3>
-      <p>כל קובץ שייך לדף אחד בלבד. שינוי בדף = יודע בדיוק איזה JSON לפתוח.</p>
-      <div class="grid-2">
-        <div>
-          <p><strong>fixtures/login_data.json</strong></p>
-          <pre>{
-  <span class="str">"email"</span>:         <span class="str">"test@auto.com"</span>,
-  <span class="str">"password"</span>:      <span class="str">"Test123!"</span>,
-  <span class="str">"auto_register"</span>: <span class="kw">true</span>
-}</pre>
-        </div>
-        <div>
-          <p><strong>fixtures/search_data.json</strong></p>
-          <pre>{
-  <span class="str">"query"</span>:     <span class="str">"Apple"</span>,
-  <span class="str">"max_price"</span>: <span class="num">200</span>,
-  <span class="str">"limit"</span>:     <span class="num">5</span>
-}</pre>
-        </div>
-      </div>
-      <p style="margin-top:12px"><strong>fixtures/cart_data.json</strong></p>
+      <h3>📂 fixtures/ – נתוני בדיקה לכל דף (מבנה Data-Driven)</h3>
+      <p>
+        כל קובץ מכיל <strong>מערך של מקרי בדיקה</strong> – חיובי, שלילי וגבולי.
+        אותה בדיקה תרוץ פעם אחת לכל שורה במערך.
+      </p>
+
+      <p style="margin-bottom:8px"><strong>fixtures/login_data.json</strong></p>
       <pre>{
-  <span class="str">"budget_per_item"</span>: <span class="num">200</span>,
-  <span class="str">"expected_max_total"</span>: <span class="num">1000</span>
+  <span class="str">"test_cases"</span>: [
+    {
+      <span class="str">"id"</span>:       <span class="str">"valid_user"</span>,
+      <span class="str">"email"</span>:    <span class="str">"test@auto.com"</span>,
+      <span class="str">"password"</span>: <span class="str">"Test123!"</span>,
+      <span class="str">"expected"</span>: <span class="str">"success"</span>      <span class="cm">// ← מקרה חיובי</span>
+    },
+    {
+      <span class="str">"id"</span>:       <span class="str">"wrong_password"</span>,
+      <span class="str">"email"</span>:    <span class="str">"test@auto.com"</span>,
+      <span class="str">"password"</span>: <span class="str">"WrongPass"</span>,
+      <span class="str">"expected"</span>: <span class="str">"failure"</span>      <span class="cm">// ← מקרה שלילי</span>
+    },
+    {
+      <span class="str">"id"</span>:       <span class="str">"empty_fields"</span>,
+      <span class="str">"email"</span>:    <span class="str">""</span>,
+      <span class="str">"password"</span>: <span class="str">""</span>,
+      <span class="str">"expected"</span>: <span class="str">"failure"</span>      <span class="cm">// ← ערכים ריקים</span>
+    }
+  ]
 }</pre>
+
+      <p style="margin-bottom:8px; margin-top:16px"><strong>fixtures/search_data.json</strong></p>
+      <pre>{
+  <span class="str">"test_cases"</span>: [
+    { <span class="str">"id"</span>: <span class="str">"apple_under_200"</span>,  <span class="str">"query"</span>: <span class="str">"Apple"</span>,   <span class="str">"max_price"</span>: <span class="num">200</span>, <span class="str">"limit"</span>: <span class="num">5</span>, <span class="str">"expect_results"</span>: <span class="kw">true</span>  },
+    { <span class="str">"id"</span>: <span class="str">"samsung_under_100"</span>, <span class="str">"query"</span>: <span class="str">"Samsung"</span>, <span class="str">"max_price"</span>: <span class="num">100</span>, <span class="str">"limit"</span>: <span class="num">3</span>, <span class="str">"expect_results"</span>: <span class="kw">true</span>  },
+    { <span class="str">"id"</span>: <span class="str">"no_results"</span>,        <span class="str">"query"</span>: <span class="str">"XYZ999"</span>,  <span class="str">"max_price"</span>: <span class="num">1</span>,   <span class="str">"limit"</span>: <span class="num">5</span>, <span class="str">"expect_results"</span>: <span class="kw">false</span> }
+  ]
+}</pre>
+
+      <p style="margin-bottom:8px; margin-top:16px"><strong>fixtures/cart_data.json</strong></p>
+      <pre>{
+  <span class="str">"test_cases"</span>: [
+    { <span class="str">"id"</span>: <span class="str">"within_budget"</span>,  <span class="str">"query"</span>: <span class="str">"Apple"</span>,   <span class="str">"max_price"</span>: <span class="num">200</span>, <span class="str">"budget_per_item"</span>: <span class="num">200</span> },
+    { <span class="str">"id"</span>: <span class="str">"tight_budget"</span>,   <span class="str">"query"</span>: <span class="str">"Samsung"</span>, <span class="str">"max_price"</span>: <span class="num">100</span>, <span class="str">"budget_per_item"</span>: <span class="num">100</span> }
+  ]
+}</pre>
+
+      <!-- DDT visual -->
+      <div style="background:rgba(72,187,120,0.07); border:1px solid rgba(72,187,120,0.25); border-radius:8px; padding:14px 18px; margin-top:16px">
+        <p style="color:var(--green); font-weight:bold; margin-bottom:8px">💡 מה קורה בזמן ריצה?</p>
+        <p>pytest יריץ <strong>בדיקה נפרדת לכל שורה</strong> במערך – 3 שורות = 3 בדיקות עצמאיות בדוח Allure:</p>
+        <pre style="margin:8px 0; font-size:0.82rem">PASSED  test_login[valid_user]
+FAILED  test_login[wrong_password]   ← מצופה שייכשל
+FAILED  test_login[empty_fields]     ← מצופה שייכשל</pre>
+      </div>
     </div>
 
     <!-- base_page.py -->
@@ -684,38 +714,30 @@
 
     <!-- conftest.py -->
     <div class="card">
-      <h3>⚙️ tests/conftest.py – פונקציות Fixture בלבד</h3>
+      <h3>⚙️ tests/conftest.py – setup/teardown + load_cases()</h3>
       <p>
-        מכיל <strong>אך ורק פונקציות</strong> – setup/teardown, browser, טעינת קבצי נתונים מ-<code>fixtures/</code>.
-        <strong>אין כאן נתוני בדיקה!</strong> הנתונים נמצאים ב-<code>fixtures/*.json</code>.
+        מכיל <strong>שני סוגי תוכן</strong>:<br>
+        1. <code>load_cases(filename)</code> – פונקציה ציבורית שקוראת את מערך <code>test_cases</code> מה-JSON.
+           הבדיקות מייבאות אותה ישירות ל-<code>@pytest.mark.parametrize</code>.<br>
+        2. <code>@pytest.fixture</code> – setup/teardown בלבד: browser, tracing, screenshot.
+        <strong>אין fixtures של נתוני בדיקה</strong> – הנתונים מגיעים דרך parametrize.
       </p>
       <pre><span class="kw">import</span> pytest, json, os, allure
 <span class="kw">from</span> pathlib <span class="kw">import</span> Path
 
-<span class="kw">def</span> <span class="fn">_load</span>(filename: <span class="cl">str</span>) -> <span class="cl">dict</span>:
-    <span class="cm"># פונקציה פנימית לטעינת JSON מתיקיית fixtures/</span>
+<span class="cm"># ── פונקציה ציבורית לטעינת מערך test_cases מ-fixtures/ ──</span>
+<span class="kw">def</span> <span class="fn">load_cases</span>(filename: <span class="cl">str</span>) -> <span class="cl">list</span>:
     <span class="kw">with</span> <span class="fn">open</span>(Path(<span class="str">"fixtures"</span>) / filename, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
-        <span class="kw">return</span> json.load(f)
+        <span class="kw">return</span> json.load(f)[<span class="str">"test_cases"</span>]
+    <span class="cm"># מחזירה: [{"id":"valid_user","email":...}, {"id":"wrong_password",...}, ...]</span>
 
-<span class="cm"># ── Fixture לכל דף – טוען את ה-JSON הרלוונטי ──────────</span>
+<span class="cm"># ── settings – URL גלובלי בלבד (לא נתוני בדיקה) ─────────</span>
 <span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
-<span class="kw">def</span> <span class="fn">login_data</span>():
-    data = _load(<span class="str">"login_data.json"</span>)
-    <span class="cm"># ENV override – ניתן לדרוס מ-CI/CD</span>
-    data[<span class="str">"email"</span>]    = os.getenv(<span class="str">"TEST_EMAIL"</span>,    data[<span class="str">"email"</span>])
-    data[<span class="str">"password"</span>] = os.getenv(<span class="str">"TEST_PASSWORD"</span>, data[<span class="str">"password"</span>])
+<span class="kw">def</span> <span class="fn">settings</span>():
+    <span class="kw">with</span> <span class="fn">open</span>(Path(<span class="str">"config"</span>) / <span class="str">"settings.json"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+        data = json.load(f)
+    data[<span class="str">"base_url"</span>] = os.getenv(<span class="str">"BASE_URL"</span>, data[<span class="str">"base_url"</span>])
     <span class="kw">return</span> data
-
-<span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
-<span class="kw">def</span> <span class="fn">search_data</span>():
-    data = _load(<span class="str">"search_data.json"</span>)
-    data[<span class="str">"query"</span>]     = os.getenv(<span class="str">"SEARCH_QUERY"</span>, data[<span class="str">"query"</span>])
-    data[<span class="str">"max_price"</span>] = <span class="fn">float</span>(os.getenv(<span class="str">"MAX_PRICE"</span>, data[<span class="str">"max_price"</span>]))
-    <span class="kw">return</span> data
-
-<span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
-<span class="kw">def</span> <span class="fn">cart_data</span>():
-    <span class="kw">return</span> _load(<span class="str">"cart_data.json"</span>)
 
 <span class="cm"># ── הגדרות Browser ──────────────────────────────────────</span>
 <span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
@@ -745,66 +767,116 @@
         path = <span class="fn">f</span><span class="str">"screenshots/FAIL_{request.node.name}.png"</span>
         page.screenshot(path=path)
         allure.attach.file(path, attachment_type=allure.attachment_type.<span class="var">PNG</span>)</pre>
+
+      <div style="background:rgba(124,106,247,0.08); border:1px solid rgba(124,106,247,0.3); border-radius:8px; padding:14px 18px; margin-top:14px">
+        <p style="color:var(--accent); font-weight:bold; margin-bottom:6px">💡 למה load_cases() ולא @pytest.fixture?</p>
+        <p style="margin-bottom:0">
+          <code>@pytest.mark.parametrize</code> דורש שהנתונים יהיו זמינים <em>בזמן איסוף הבדיקות</em> (collection time),
+          לפני שה-fixtures רצים. לכן <code>load_cases()</code> היא פונקציה רגילה (לא fixture) שקוראת את ה-JSON
+          מיד כשהקובץ נטען. ה-fixture scope לא מתאים לשם.
+        </p>
+      </div>
     </div>
 
     <!-- test files -->
     <div class="card">
-      <h3>✅ tests/test_login.py, test_search.py, test_cart.py – ה-Specs</h3>
+      <h3>✅ tests/test_login.py, test_search.py, test_cart.py – DDT עם parametrize</h3>
       <p>
-        כל קובץ בדיקה מקבל <strong>רק את ה-fixtures הרלוונטיים לו</strong>.
-        <code>test_login.py</code> מקבל <code>login_data</code>, לא את כל הנתונים.
+        כל בדיקה משתמשת ב-<code>@pytest.mark.parametrize</code> עם <code>load_cases()</code>
+        כדי לרוץ <strong>פעם אחת לכל שורה במערך</strong>. השם <code>ids=</code> מבטיח שבדוח Allure
+        יופיע <code>test_login[valid_user]</code> ולא <code>test_login[0]</code>.
       </p>
-      <pre><span class="cm"># tests/test_login.py – בודק רק את Login</span>
-<span class="kw">import</span> allure
+
+      <pre><span class="cm"># tests/test_login.py – 3 ריצות: valid_user, wrong_password, empty_fields</span>
+<span class="kw">import</span> pytest, allure, os
 <span class="kw">from</span> pages.login_page <span class="kw">import</span> LoginPage
+<span class="kw">from</span> tests.conftest <span class="kw">import</span> load_cases
 
 <span class="kw">class</span> <span class="cl">TestLogin</span>:
-    <span class="deco">@allure.title</span>(<span class="str">"Login or Register"</span>)
-    <span class="kw">def</span> <span class="fn">test_login</span>(self, page, login_data):   <span class="cm"># ← מקבל רק login_data</span>
-        <span class="cl">LoginPage</span>(page).login_or_register(
-            login_data[<span class="str">"email"</span>], login_data[<span class="str">"password"</span>]
-        )</pre>
+    <span class="deco">@pytest.mark.parametrize</span>(<span class="str">"case"</span>, load_cases(<span class="str">"login_data.json"</span>),
+                             ids=<span class="kw">lambda</span> c: c[<span class="str">"id"</span>])
+    <span class="deco">@allure.title</span>(<span class="str">"Login: {case[id]}"</span>)
+    <span class="kw">def</span> <span class="fn">test_login</span>(self, page, case):
+        email    = os.getenv(<span class="str">"TEST_EMAIL"</span>,    case[<span class="str">"email"</span>])    <span class="cm"># ENV override</span>
+        password = os.getenv(<span class="str">"TEST_PASSWORD"</span>, case[<span class="str">"password"</span>]) <span class="cm"># ENV override</span>
+        login = <span class="cl">LoginPage</span>(page)
+        success = login.login_or_register(email, password)
+        <span class="kw">if</span> case[<span class="str">"expected"</span>] == <span class="str">"success"</span>:
+            <span class="kw">assert</span> success, <span class="str">"Login should succeed"</span>
+        <span class="kw">else</span>:
+            <span class="kw">assert not</span> success, <span class="str">"Login should fail"</span></pre>
 
-      <pre><span class="cm"># tests/test_search.py – בודק רק את Search</span>
-<span class="kw">import</span> allure
+      <pre><span class="cm"># tests/test_search.py – 3 ריצות: apple_under_200, samsung_under_100, no_results</span>
+<span class="kw">import</span> pytest, allure
 <span class="kw">from</span> pages.home_page <span class="kw">import</span> HomePage
+<span class="kw">from</span> pages.login_page <span class="kw">import</span> LoginPage
 <span class="kw">from</span> pages.search_results_page <span class="kw">import</span> SearchResultsPage
+<span class="kw">from</span> tests.conftest <span class="kw">import</span> load_cases
+
+<span class="cm"># משתמש במקרה החיובי של Login כדי להיכנס לאתר</span>
+_LOGIN = next(c <span class="kw">for</span> c <span class="kw">in</span> load_cases(<span class="str">"login_data.json"</span>) <span class="kw">if</span> c[<span class="str">"expected"</span>] == <span class="str">"success"</span>)
 
 <span class="kw">class</span> <span class="cl">TestSearch</span>:
-    <span class="deco">@allure.title</span>(<span class="str">"Search items under price"</span>)
-    <span class="kw">def</span> <span class="fn">test_search_under_price</span>(self, page, login_data, search_data):
-        <span class="cl">LoginPage</span>(page).login_or_register(login_data[<span class="str">"email"</span>], login_data[<span class="str">"password"</span>])
-        <span class="cl">HomePage</span>(page).open()
-        <span class="cl">HomePage</span>(page).search(search_data[<span class="str">"query"</span>])
+    <span class="deco">@pytest.mark.parametrize</span>(<span class="str">"case"</span>, load_cases(<span class="str">"search_data.json"</span>),
+                             ids=<span class="kw">lambda</span> c: c[<span class="str">"id"</span>])
+    <span class="deco">@allure.title</span>(<span class="str">"Search: {case[id]}"</span>)
+    <span class="kw">def</span> <span class="fn">test_search_under_price</span>(self, page, case):
+        <span class="cl">LoginPage</span>(page).login_or_register(_LOGIN[<span class="str">"email"</span>], _LOGIN[<span class="str">"password"</span>])
+        <span class="cl">HomePage</span>(page).open().search(case[<span class="str">"query"</span>])
         urls = <span class="cl">SearchResultsPage</span>(page).get_items_under_price(
-            search_data[<span class="str">"max_price"</span>], search_data[<span class="str">"limit"</span>]
+            case[<span class="str">"max_price"</span>], case[<span class="str">"limit"</span>]
         )
-        <span class="kw">assert</span> <span class="fn">len</span>(urls) > <span class="num">0</span>, <span class="str">"לא נמצאו מוצרים"</span></pre>
+        <span class="kw">if</span> case[<span class="str">"expect_results"</span>]:
+            <span class="kw">assert</span> <span class="fn">len</span>(urls) > <span class="num">0</span>, <span class="str">"Expected results but found none"</span>
+        <span class="kw">else</span>:
+            <span class="kw">assert</span> <span class="fn">len</span>(urls) == <span class="num">0</span>, <span class="str">"Expected no results but found some"</span></pre>
 
-      <pre><span class="cm"># tests/test_cart.py – בודק את Cart (E2E מלא)</span>
-<span class="kw">import</span> allure
+      <pre><span class="cm"># tests/test_cart.py – E2E מלא, 2 ריצות: within_budget, tight_budget</span>
+<span class="kw">import</span> pytest, allure
 <span class="kw">from</span> pages.login_page <span class="kw">import</span> LoginPage
 <span class="kw">from</span> pages.home_page <span class="kw">import</span> HomePage
 <span class="kw">from</span> pages.search_results_page <span class="kw">import</span> SearchResultsPage
 <span class="kw">from</span> pages.product_page <span class="kw">import</span> ProductPage
 <span class="kw">from</span> pages.cart_page <span class="kw">import</span> CartPage
+<span class="kw">from</span> tests.conftest <span class="kw">import</span> load_cases
+
+_LOGIN = next(c <span class="kw">for</span> c <span class="kw">in</span> load_cases(<span class="str">"login_data.json"</span>) <span class="kw">if</span> c[<span class="str">"expected"</span>] == <span class="str">"success"</span>)
 
 <span class="kw">class</span> <span class="cl">TestCart</span>:
-    <span class="deco">@allure.title</span>(<span class="str">"Add to cart and assert total"</span>)
-    <span class="kw">def</span> <span class="fn">test_cart_total</span>(self, page, login_data, search_data, cart_data):
-        <span class="cl">LoginPage</span>(page).login_or_register(login_data[<span class="str">"email"</span>], login_data[<span class="str">"password"</span>])
-        <span class="cl">HomePage</span>(page).open()
-        <span class="cl">HomePage</span>(page).search(search_data[<span class="str">"query"</span>])
+    <span class="deco">@pytest.mark.parametrize</span>(<span class="str">"case"</span>, load_cases(<span class="str">"cart_data.json"</span>),
+                             ids=<span class="kw">lambda</span> c: c[<span class="str">"id"</span>])
+    <span class="deco">@allure.title</span>(<span class="str">"Cart: {case[id]}"</span>)
+    <span class="kw">def</span> <span class="fn">test_cart_total</span>(self, page, case):
+        <span class="cl">LoginPage</span>(page).login_or_register(_LOGIN[<span class="str">"email"</span>], _LOGIN[<span class="str">"password"</span>])
+        <span class="cl">HomePage</span>(page).open().search(case[<span class="str">"query"</span>])
         urls = <span class="cl">SearchResultsPage</span>(page).get_items_under_price(
-            search_data[<span class="str">"max_price"</span>], search_data[<span class="str">"limit"</span>]
+            case[<span class="str">"max_price"</span>], limit=<span class="num">5</span>
         )
         product = <span class="cl">ProductPage</span>(page)
         <span class="kw">for</span> url <span class="kw">in</span> urls:
             product.add_to_cart(url)
 
         total = <span class="cl">CartPage</span>(page).get_total()
-        threshold = cart_data[<span class="str">"budget_per_item"</span>] * <span class="fn">len</span>(urls)
-        <span class="kw">assert</span> total <= threshold</pre>
+        threshold = case[<span class="str">"budget_per_item"</span>] * <span class="fn">len</span>(urls)
+        <span class="kw">assert</span> total <= threshold, \
+            <span class="fn">f</span><span class="str">"Total {total} exceeds threshold {threshold}"</span></pre>
+
+      <div style="background:rgba(72,187,120,0.07); border:1px solid rgba(72,187,120,0.25); border-radius:8px; padding:14px 18px; margin-top:14px">
+        <p style="color:var(--green); font-weight:bold; margin-bottom:8px">📊 תוצאה בדוח Allure</p>
+        <pre style="margin:0; font-size:0.82rem">PASSED  test_login[valid_user]
+FAILED  test_login[wrong_password]    ← מצופה שייכשל (expected failure)
+FAILED  test_login[empty_fields]      ← מצופה שייכשל
+
+PASSED  test_search[apple_under_200]
+PASSED  test_search[samsung_under_100]
+PASSED  test_search[no_results]
+
+PASSED  test_cart[within_budget]
+PASSED  test_cart[tight_budget]</pre>
+        <p style="margin-top:10px; margin-bottom:0">
+          כל שורה ב-JSON = ריצה עצמאית עם trace ZIP נפרד, screenshot נפרד, ורשומה נפרדת ב-Allure.
+        </p>
+      </div>
     </div>
 
   </section>

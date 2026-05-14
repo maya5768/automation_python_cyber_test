@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data-Driven Testing - הסבר</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --panel: #1a1d27;
+      --panel-soft: #202433;
+      --border: #2d3148;
+      --accent: #4fd1c5;
+      --accent-strong: #7c6af7;
+      --text: #e2e8f0;
+      --muted: #a0aec0;
+      --code-bg: #0d1117;
+      --ok: #48bb78;
+      --warn: #f6ad55;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 16px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a1d27 0%, #173640 55%, #2a2458 100%);
+      border-bottom: 2px solid var(--accent);
+      padding: 42px 24px 34px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 4vw, 2.7rem);
+      color: #fff;
+      margin-bottom: 10px;
+      letter-spacing: 0;
+    }
+
+    header p {
+      color: var(--muted);
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    main {
+      width: min(1080px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 36px 0 56px;
+    }
+
+    section {
+      margin-bottom: 32px;
+    }
+
+    h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      color: var(--accent-strong);
+      font-size: 1.12rem;
+      margin-bottom: 8px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin-bottom: 12px;
+    }
+
+    ul, ol {
+      margin: 10px 22px 14px 0;
+      padding-right: 16px;
+    }
+
+    li {
+      margin-bottom: 7px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .highlight {
+      background: var(--panel-soft);
+      border-right: 4px solid var(--accent);
+      padding: 16px 18px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px 12px;
+      margin: 4px 0 4px 6px;
+      color: var(--muted);
+      background: #151925;
+      font-size: 0.9rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 11px 12px;
+      text-align: right;
+      vertical-align: top;
+    }
+
+    th {
+      background: #202433;
+      color: #fff;
+    }
+
+    td {
+      background: #151925;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+      margin: 12px 0 18px;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      color: #d6e2ff;
+      font-size: 0.95rem;
+    }
+
+    .good {
+      color: var(--ok);
+      font-weight: 600;
+    }
+
+    .note {
+      color: var(--warn);
+      font-weight: 600;
+    }
+
+    footer {
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 18px;
+      margin-top: 34px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 760px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        padding: 32px 18px 28px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      th, td {
+        padding: 9px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Data-Driven Testing</h1>
+    <p>
+      שיטת בדיקות שבה מריצים את אותה בדיקה כמה פעמים, אבל בכל פעם עם נתונים אחרים.
+      במקום לכתוב הרבה בדיקות כמעט זהות, מפרידים בין הלוגיקה של הבדיקה לבין הנתונים שלה.
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>הרעיון המרכזי</h2>
+      <div class="card">
+        <p>
+          ב-Data-Driven Testing הבדיקה עצמה נשארת קבועה, אבל הקלט והתוצאה הצפויה משתנים.
+          הנתונים יכולים להגיע מתוך קובץ כמו <code>CSV</code>, קובץ <code>JSON</code>,
+          אקסל, בסיס נתונים, או רשימה בתוך הקוד.
+        </p>
+
+        <div class="highlight">
+          <strong>במילים פשוטות:</strong>
+          כותבים בדיקה אחת חכמה, ואז נותנים לה טבלה של מקרים לבדיקה.
+        </div>
+
+        <span class="tag">פחות שכפול קוד</span>
+        <span class="tag">יותר כיסוי בדיקות</span>
+        <span class="tag">קל להוסיף תרחישים</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>דוגמה מהעולם האמיתי</h2>
+      <div class="card">
+        <p>
+          נניח שאנחנו בודקים התחברות לאתר. במקום לכתוב בדיקה נפרדת לכל משתמש,
+          ניצור טבלת נתונים:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>שם משתמש</th>
+              <th>סיסמה</th>
+              <th>תוצאה צפויה</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>standard_user</td>
+              <td>secret_sauce</td>
+              <td>התחברות מצליחה</td>
+            </tr>
+            <tr>
+              <td>locked_out_user</td>
+              <td>secret_sauce</td>
+              <td>מוצגת שגיאת משתמש חסום</td>
+            </tr>
+            <tr>
+              <td>wrong_user</td>
+              <td>bad_password</td>
+              <td>מוצגת שגיאת התחברות</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          עכשיו אותה בדיקת Login רצה שלוש פעמים: בכל פעם עם שורה אחרת מהטבלה.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>איך זה נראה בפייתון עם pytest</h2>
+      <div class="card">
+        <p>
+          ב-<code>pytest</code> אפשר להשתמש ב-<code>@pytest.mark.parametrize</code>
+          כדי להריץ את אותה פונקציית בדיקה עם כמה סטים של נתונים.
+        </p>
+
+        <pre><code>import pytest
+
+@pytest.mark.parametrize("username, password, expected_message", [
+    ("standard_user", "secret_sauce", "success"),
+    ("locked_out_user", "secret_sauce", "locked"),
+    ("wrong_user", "bad_password", "error"),
+])
+def test_login(username, password, expected_message):
+    result = login(username, password)
+
+    assert result == expected_message</code></pre>
+
+        <p>
+          הפונקציה <code>test_login</code> כתובה פעם אחת, אבל בפועל היא תרוץ שלוש פעמים.
+          אם נוסיף עוד שורה לרשימת הנתונים, נקבל עוד תרחיש בדיקה בלי לשכפל את הקוד.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>למה זה שימושי באוטומציה?</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>תחזוקה קלה יותר</h3>
+          <p>
+            כשצריך לשנות את שלבי הבדיקה, משנים מקום אחד בלבד.
+            הנתונים נשארים מופרדים וברורים.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>כיסוי רחב יותר</h3>
+          <p>
+            אפשר לבדוק הרבה קומבינציות: משתמש תקין, משתמש חסום, סיסמה שגויה,
+            שדות ריקים, תווים מיוחדים ועוד.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>קריאות טובה</h3>
+          <p>
+            קל לראות אילו תרחישים נבדקים, כי הנתונים מסודרים במקום אחד.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>סקיילביליות</h3>
+          <p>
+            כשהפרויקט גדל, מוסיפים עוד נתוני בדיקה במקום ליצור עוד ועוד פונקציות דומות.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>מתי כדאי להשתמש בזה?</h2>
+      <div class="card">
+        <ul>
+          <li>כאשר אותה פעולה צריכה להיבדק עם הרבה סוגי קלט.</li>
+          <li>כאשר יש הרבה תרחישים דומים עם תוצאה צפויה שונה.</li>
+          <li>כאשר רוצים להוסיף תרחישי בדיקה בלי לגעת בלוגיקה של הבדיקה.</li>
+          <li>כאשר הנתונים מגיעים ממקור חיצוני כמו CSV, JSON או Excel.</li>
+        </ul>
+
+        <p>
+          <span class="note">חשוב:</span>
+          אם יש רק מקרה אחד או שניים, לפעמים בדיקה רגילה תהיה פשוטה יותר.
+          Data-Driven Testing הכי יעיל כשיש כמה תרחישים שחולקים את אותה לוגיקת בדיקה.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>סיכום קצר</h2>
+      <div class="card">
+        <p>
+          <span class="good">Data-Driven Testing</span>
+          היא דרך לכתוב בדיקות אוטומטיות בצורה נקייה וחסכונית:
+          בדיקה אחת, הרבה נתונים, הרבה תרחישים.
+        </p>
+        <p>
+          זה עוזר להפחית שכפול קוד, לשפר תחזוקה, ולהגדיל את כמות המקרים שהמערכת בודקת.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      קובץ הסבר נפרד עבור מושגי בדיקות אוטומציה בפרויקט.
+    </footer>
+  </main>
+</body>
+</html>

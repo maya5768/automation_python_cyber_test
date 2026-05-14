@@ -11,3 +11,5 @@ screenshots/
 word/
 doc_content.txt
 doc_full.txt
+.vscode/
+*.docx
