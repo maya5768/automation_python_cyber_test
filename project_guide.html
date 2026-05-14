@@ -300,25 +300,51 @@
 
     <div class="tree">
       <span class="folder">automation_python_cyber_test/</span><br>
-      &nbsp;&nbsp;├── <span class="folder">config/</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">test_data.json</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← נתוני בדיקה (Data-Driven)</span><br>
-      &nbsp;&nbsp;├── <span class="folder">pages/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← Page Object Model</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">base_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← מחלקת אב משותפת לכל הדפים</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">home_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← דף הבית + חיפוש</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">login_page.py</span>&nbsp;&nbsp;&nbsp;<span class="note">← כניסה / הרשמה</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">search_results_page.py</span>&nbsp;<span class="note">← תוצאות חיפוש + Paging</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">product_page.py</span>&nbsp;<span class="note">← דף מוצר + Add to Cart</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">cart_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← עגלת קניות + אימות סכום</span><br>
-      &nbsp;&nbsp;├── <span class="folder">tests/</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">conftest.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← הגדרות Pytest + Fixtures</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">test_shopping.py</span>&nbsp;<span class="note">← הבדיקה הראשית</span><br>
+      &nbsp;&nbsp;├── <span class="folder">pages/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← Page Object Model</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">base_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← מחלקת אב משותפת לכל הדפים</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">home_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← דף הבית + חיפוש</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">login_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← כניסה / הרשמה</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">search_results_page.py</span>&nbsp;&nbsp;&nbsp;<span class="note">← תוצאות חיפוש + Paging</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">product_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← דף מוצר + Add to Cart</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">cart_page.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← עגלת קניות + אימות סכום</span><br>
+      &nbsp;&nbsp;├── <span class="folder">tests/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← Test Specs בלבד</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">conftest.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← fixture functions בלבד (setup/teardown)</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">test_login.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← spec של Login</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">test_search.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← spec של Search</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">test_cart.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← spec של Cart</span><br>
+      &nbsp;&nbsp;├── <span class="folder">fixtures/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← קבצי נתוני בדיקה בלבד (JSON)</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">login_data.json</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← נתוני Login (email, password)</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="file">search_data.json</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← נתוני Search (query, max_price)</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">cart_data.json</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← נתוני Cart (budget, items)</span><br>
       &nbsp;&nbsp;├── <span class="folder">utils/</span><br>
-      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">price_parser.py</span>&nbsp;<span class="note">← פרסור מחירים ($123.00 → 123.0)</span><br>
-      &nbsp;&nbsp;├── <span class="folder">reports/allure-results/</span>&nbsp;<span class="note">← תוצאות Allure</span><br>
-      &nbsp;&nbsp;├── <span class="folder">screenshots/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← צילומי מסך אוטומטיים</span><br>
-      &nbsp;&nbsp;├── <span class="file">pytest.ini</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← הגדרות Pytest</span><br>
-      &nbsp;&nbsp;├── <span class="file">ReadMeAIBugs.md</span>&nbsp;&nbsp;&nbsp;<span class="note">← ניתוח הבאגים</span><br>
-      &nbsp;&nbsp;└── <span class="file">README.md</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← תיעוד הפרויקט</span>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">price_parser.py</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← פרסור מחירים ($123.00 → 123.0)</span><br>
+      &nbsp;&nbsp;├── <span class="folder">config/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← הגדרות גלובליות בלבד</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="file">settings.json</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← base_url, ENV, profiles</span><br>
+      &nbsp;&nbsp;├── <span class="folder">reports/allure-results/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← תוצאות Allure</span><br>
+      &nbsp;&nbsp;├── <span class="folder">screenshots/</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← צילומי מסך אוטומטיים</span><br>
+      &nbsp;&nbsp;├── <span class="file">pytest.ini</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← הגדרות Pytest</span><br>
+      &nbsp;&nbsp;├── <span class="file">ReadMeAIBugs.md</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← ניתוח הבאגים</span><br>
+      &nbsp;&nbsp;└── <span class="file">README.md</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="note">← תיעוד הפרויקט</span>
+    </div>
+
+    <!-- הסבר העיקרון -->
+    <div style="background:rgba(79,209,197,0.06); border:1px solid rgba(79,209,197,0.25); border-radius:10px; padding:18px 22px; margin-top:18px">
+      <p style="color:var(--accent2); font-weight:bold; margin-bottom:10px">💡 עיקרון ה-Test Locality – כל דף = 3 קבצים</p>
+      <p>לכל דף אינטרנט יש שלושה קבצים בעלי <strong>אותו שם</strong>, כל אחד עם אחריות נפרדת:</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:12px">
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center">
+          <div style="color:#82aaff; font-family:monospace; font-size:0.95rem; margin-bottom:6px">login_page.py</div>
+          <div style="color:var(--muted); font-size:0.82rem">Page Object<br>מה <em>יש</em> בדף</div>
+        </div>
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center">
+          <div style="color:#c3e88d; font-family:monospace; font-size:0.95rem; margin-bottom:6px">test_login.py</div>
+          <div style="color:var(--muted); font-size:0.82rem">Spec<br>מה <em>בודקים</em></div>
+        </div>
+        <div style="background:var(--card); border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center">
+          <div style="color:#f6e05e; font-family:monospace; font-size:0.95rem; margin-bottom:6px">login_data.json</div>
+          <div style="color:var(--muted); font-size:0.82rem">Fixture Data<br><em>עם מה</em> בודקים</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -346,10 +372,24 @@
     </div>
 
     <div class="concept">
-      <h4>📊 Data-Driven Testing</h4>
+      <h4>📊 Data-Driven Testing – שתי שכבות</h4>
       <p>
-        נתוני הבדיקה (query, maxPrice, credentials) נשמרים בקובץ <code>config/test_data.json</code>
-        נפרד מהקוד. כך אפשר לשנות נתונים בלי לגעת בלוגיקה, ולהריץ אותה בדיקה על פרמטרים שונים.
+        <strong>שכבה 1 – <code>config/settings.json</code></strong>: הגדרות <em>גלובליות</em> בלבד –
+        base_url, ENV, profiles. אחת לפרויקט.<br><br>
+        <strong>שכבה 2 – <code>fixtures/*.json</code></strong>: נתוני בדיקה <em>ספציפיים לכל דף</em> –
+        <code>login_data.json</code>, <code>search_data.json</code>, <code>cart_data.json</code>.
+        כל קובץ שייך לדף אחד בלבד. שינוי בדף Login = עורכים רק את <code>login_data.json</code>.
+      </p>
+    </div>
+
+    <div class="concept">
+      <h4>⚙️ conftest.py לעומת fixtures/</h4>
+      <p>
+        ב-pytest יש הבחנה חשובה שמתחילים מרבה לערבב:<br><br>
+        <strong><code>conftest.py</code></strong> = <em>פונקציות</em> בלבד –
+        <code>@pytest.fixture</code>, setup/teardown, browser, page.<br>
+        <strong><code>fixtures/</code></strong> = <em>קבצי נתונים</em> בלבד –
+        JSON/YAML/CSV שהפונקציות טוענות ומעבירות לבדיקות.
       </p>
     </div>
   </section>
@@ -360,22 +400,45 @@
   <section>
     <h2><span class="icon">📄</span> הסבר על כל קובץ</h2>
 
-    <!-- test_data.json -->
+    <!-- config/settings.json -->
     <div class="card">
-      <h3>📋 config/test_data.json – נתוני הבדיקה</h3>
-      <p>כל הפרמטרים של הבדיקה מוגדרים כאן. שינוי כאן = שינוי התנהגות הבדיקה, בלי לגעת בקוד.</p>
+      <h3>⚙️ config/settings.json – הגדרות גלובליות בלבד</h3>
+      <p>מכיל רק הגדרות שמשותפות לכל הבדיקות: כתובת האתר, profiles ו-ENV. <strong>לא</strong> מכיל נתוני בדיקה ספציפיים.</p>
       <pre>{
   <span class="str">"base_url"</span>: <span class="str">"https://tutorialsninja.com/demo/"</span>,
-  <span class="str">"credentials"</span>: {
-    <span class="str">"email"</span>: <span class="str">"testuser@automation.com"</span>,
-    <span class="str">"password"</span>: <span class="str">"Test123!"</span>,
-    <span class="str">"auto_register"</span>: <span class="kw">true</span>   <span class="cm">// אם המשתמש לא קיים, ירשם אוטומטית</span>
-  },
-  <span class="str">"search"</span>: {
-    <span class="str">"query"</span>: <span class="str">"Apple"</span>,         <span class="cm">// מה לחפש</span>
-    <span class="str">"max_price"</span>: <span class="num">200</span>,       <span class="cm">// מחיר מקסימלי בדולר</span>
-    <span class="str">"limit"</span>: <span class="num">5</span>            <span class="cm">// כמה מוצרים מקסימום לאסוף</span>
+  <span class="str">"profiles"</span>: {
+    <span class="str">"default"</span>: { <span class="str">"query"</span>: <span class="str">"Apple"</span>,   <span class="str">"max_price"</span>: <span class="num">200</span> },
+    <span class="str">"ci"</span>:      { <span class="str">"query"</span>: <span class="str">"Samsung"</span>, <span class="str">"max_price"</span>: <span class="num">150</span> }
   }
+}</pre>
+    </div>
+
+    <!-- fixtures/ -->
+    <div class="card">
+      <h3>📂 fixtures/ – נתוני בדיקה לכל דף בנפרד</h3>
+      <p>כל קובץ שייך לדף אחד בלבד. שינוי בדף = יודע בדיוק איזה JSON לפתוח.</p>
+      <div class="grid-2">
+        <div>
+          <p><strong>fixtures/login_data.json</strong></p>
+          <pre>{
+  <span class="str">"email"</span>:         <span class="str">"test@auto.com"</span>,
+  <span class="str">"password"</span>:      <span class="str">"Test123!"</span>,
+  <span class="str">"auto_register"</span>: <span class="kw">true</span>
+}</pre>
+        </div>
+        <div>
+          <p><strong>fixtures/search_data.json</strong></p>
+          <pre>{
+  <span class="str">"query"</span>:     <span class="str">"Apple"</span>,
+  <span class="str">"max_price"</span>: <span class="num">200</span>,
+  <span class="str">"limit"</span>:     <span class="num">5</span>
+}</pre>
+        </div>
+      </div>
+      <p style="margin-top:12px"><strong>fixtures/cart_data.json</strong></p>
+      <pre>{
+  <span class="str">"budget_per_item"</span>: <span class="num">200</span>,
+  <span class="str">"expected_max_total"</span>: <span class="num">1000</span>
 }</pre>
     </div>
 
@@ -619,109 +682,129 @@
     <span class="kw">return</span> <span class="num">0.0</span></pre>
     </div>
 
-    <!-- test_shopping.py -->
-    <div class="card">
-      <h3>✅ tests/test_shopping.py – הבדיקה הראשית</h3>
-      <p>
-        כל 4 הפונקציות ממומשות כאן. הבדיקה עוברת את כל תרחיש הקנייה מקצה לקצה.
-        שימו לב לדקורטורים של <strong>Allure</strong> שמייצרים תיעוד עשיר בדוח.
-      </p>
-      <pre><span class="kw">import</span> allure
-<span class="kw">import</span> pytest
-<span class="kw">from</span> playwright.sync_api <span class="kw">import</span> Page
-<span class="kw">from</span> pages.home_page <span class="kw">import</span> HomePage
-<span class="kw">from</span> pages.login_page <span class="kw">import</span> LoginPage
-<span class="kw">from</span> pages.search_results_page <span class="kw">import</span> SearchResultsPage
-<span class="kw">from</span> pages.product_page <span class="kw">import</span> ProductPage
-<span class="kw">from</span> pages.cart_page <span class="kw">import</span> CartPage
-
-<span class="cm"># ── 1. הזדהות ──────────────────────────────────────────</span>
-<span class="kw">def</span> <span class="fn">login</span>(page: <span class="cl">Page</span>, email: <span class="cl">str</span>, password: <span class="cl">str</span>):
-    <span class="cl">LoginPage</span>(page).login_or_register(email, password)
-
-<span class="cm"># ── 2. חיפוש לפי מחיר ─────────────────────────────────</span>
-<span class="kw">def</span> <span class="fn">search_items_by_name_under_price</span>(
-    page: <span class="cl">Page</span>, query: <span class="cl">str</span>, max_price: <span class="cl">float</span>, limit: <span class="cl">int</span> = <span class="num">5</span>
-) -> <span class="cl">list</span>[<span class="cl">str</span>]:
-    home = <span class="cl">HomePage</span>(page)
-    home.open()
-    home.search(query)
-    <span class="kw">return</span> <span class="cl">SearchResultsPage</span>(page).get_items_under_price(max_price, limit)
-
-<span class="cm"># ── 3. הוספה לסל ──────────────────────────────────────</span>
-<span class="kw">def</span> <span class="fn">add_items_to_cart</span>(page: <span class="cl">Page</span>, urls: <span class="cl">list</span>[<span class="cl">str</span>]):
-    product = <span class="cl">ProductPage</span>(page)
-    <span class="kw">for</span> url <span class="kw">in</span> urls:
-        <span class="kw">with</span> allure.step(<span class="fn">f</span><span class="str">"Adding: {url}"</span>):
-            product.add_to_cart(url)
-
-<span class="cm"># ── 4. אימות סכום ─────────────────────────────────────</span>
-<span class="kw">def</span> <span class="fn">assert_cart_total_not_exceeds</span>(
-    page: <span class="cl">Page</span>, budget_per_item: <span class="cl">float</span>, items_count: <span class="cl">int</span>
-):
-    total = <span class="cl">CartPage</span>(page).get_total()
-    threshold = budget_per_item * items_count
-    <span class="kw">assert</span> total <= threshold, \
-        <span class="fn">f</span><span class="str">"Cart total ${total:.2f} exceeds budget ${threshold:.2f}"</span>
-
-<span class="cm"># ── בדיקת E2E ─────────────────────────────────────────</span>
-<span class="kw">class</span> <span class="cl">TestShoppingFlow</span>:
-
-    <span class="deco">@allure.title</span>(<span class="str">"Full E2E Shopping Flow"</span>)
-    <span class="deco">@allure.description</span>(<span class="str">"Search → Add to Cart → Assert Total"</span>)
-    <span class="kw">def</span> <span class="fn">test_full_flow</span>(self, page: <span class="cl">Page</span>, test_data: <span class="cl">dict</span>):
-        creds  = test_data[<span class="str">"credentials"</span>]
-        search = test_data[<span class="str">"search"</span>]
-
-        <span class="kw">with</span> allure.step(<span class="str">"שלב 1: הזדהות"</span>):
-            login(page, creds[<span class="str">"email"</span>], creds[<span class="str">"password"</span>])
-
-        <span class="kw">with</span> allure.step(<span class="str">"שלב 2: חיפוש מוצרים"</span>):
-            urls = search_items_by_name_under_price(
-                page, search[<span class="str">"query"</span>], search[<span class="str">"max_price"</span>], search[<span class="str">"limit"</span>]
-            )
-            <span class="kw">assert</span> <span class="fn">len</span>(urls) > <span class="num">0</span>, <span class="str">"לא נמצאו מוצרים במחיר המבוקש"</span>
-
-        <span class="kw">with</span> allure.step(<span class="str">"שלב 3: הוספה לסל"</span>):
-            add_items_to_cart(page, urls)
-
-        <span class="kw">with</span> allure.step(<span class="str">"שלב 4: אימות סכום"</span>):
-            assert_cart_total_not_exceeds(page, search[<span class="str">"max_price"</span>], <span class="fn">len</span>(urls))</pre>
-    </div>
-
     <!-- conftest.py -->
     <div class="card">
-      <h3>⚙️ tests/conftest.py – הגדרות Pytest</h3>
+      <h3>⚙️ tests/conftest.py – פונקציות Fixture בלבד</h3>
       <p>
-        <strong>Fixtures</strong> הן פונקציות שמכינות תנאים לפני הבדיקה.
-        Pytest-Playwright כבר מספק את <code>page</code> fixture – כאן אנחנו מרחיבים אותו.
+        מכיל <strong>אך ורק פונקציות</strong> – setup/teardown, browser, טעינת קבצי נתונים מ-<code>fixtures/</code>.
+        <strong>אין כאן נתוני בדיקה!</strong> הנתונים נמצאים ב-<code>fixtures/*.json</code>.
       </p>
-      <pre><span class="kw">import</span> pytest, json, allure
+      <pre><span class="kw">import</span> pytest, json, os, allure
 <span class="kw">from</span> pathlib <span class="kw">import</span> Path
 
-<span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)    <span class="cm"># נטען פעם אחת לכל session</span>
-<span class="kw">def</span> <span class="fn">test_data</span>():
-    <span class="kw">with</span> <span class="fn">open</span>(Path(<span class="str">"config/test_data.json"</span>), encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+<span class="kw">def</span> <span class="fn">_load</span>(filename: <span class="cl">str</span>) -> <span class="cl">dict</span>:
+    <span class="cm"># פונקציה פנימית לטעינת JSON מתיקיית fixtures/</span>
+    <span class="kw">with</span> <span class="fn">open</span>(Path(<span class="str">"fixtures"</span>) / filename, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
         <span class="kw">return</span> json.load(f)
 
+<span class="cm"># ── Fixture לכל דף – טוען את ה-JSON הרלוונטי ──────────</span>
+<span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
+<span class="kw">def</span> <span class="fn">login_data</span>():
+    data = _load(<span class="str">"login_data.json"</span>)
+    <span class="cm"># ENV override – ניתן לדרוס מ-CI/CD</span>
+    data[<span class="str">"email"</span>]    = os.getenv(<span class="str">"TEST_EMAIL"</span>,    data[<span class="str">"email"</span>])
+    data[<span class="str">"password"</span>] = os.getenv(<span class="str">"TEST_PASSWORD"</span>, data[<span class="str">"password"</span>])
+    <span class="kw">return</span> data
+
+<span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
+<span class="kw">def</span> <span class="fn">search_data</span>():
+    data = _load(<span class="str">"search_data.json"</span>)
+    data[<span class="str">"query"</span>]     = os.getenv(<span class="str">"SEARCH_QUERY"</span>, data[<span class="str">"query"</span>])
+    data[<span class="str">"max_price"</span>] = <span class="fn">float</span>(os.getenv(<span class="str">"MAX_PRICE"</span>, data[<span class="str">"max_price"</span>]))
+    <span class="kw">return</span> data
+
+<span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
+<span class="kw">def</span> <span class="fn">cart_data</span>():
+    <span class="kw">return</span> _load(<span class="str">"cart_data.json"</span>)
+
+<span class="cm"># ── הגדרות Browser ──────────────────────────────────────</span>
 <span class="deco">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
 <span class="kw">def</span> <span class="fn">browser_context_args</span>(browser_context_args):
     <span class="kw">return</span> {**browser_context_args, <span class="str">"viewport"</span>: {<span class="str">"width"</span>: <span class="num">1280</span>, <span class="str">"height"</span>: <span class="num">800</span>}}
 
-<span class="cm"># שמירת צילום מסך בכישלון</span>
+<span class="cm"># ── Playwright Trace לכל בדיקה ──────────────────────────</span>
+<span class="deco">@pytest.fixture</span>(autouse=<span class="kw">True</span>)
+<span class="kw">def</span> <span class="fn">tracing</span>(context, request):
+    context.tracing.start(screenshots=<span class="kw">True</span>, snapshots=<span class="kw">True</span>)
+    <span class="kw">yield</span>
+    path = <span class="fn">f</span><span class="str">"reports/traces/{request.node.name}.zip"</span>
+    Path(<span class="str">"reports/traces"</span>).mkdir(parents=<span class="kw">True</span>, exist_ok=<span class="kw">True</span>)
+    context.tracing.stop(path=path)
+
+<span class="cm"># ── Screenshot בכישלון ──────────────────────────────────</span>
 <span class="deco">@pytest.hookimpl</span>(tryfirst=<span class="kw">True</span>, hookwrapper=<span class="kw">True</span>)
 <span class="kw">def</span> <span class="fn">pytest_runtest_makereport</span>(item, call):
     outcome = <span class="kw">yield</span>
     rep = outcome.get_result()
     <span class="fn">setattr</span>(item, <span class="fn">f</span><span class="str">"rep_{rep.when}"</span>, rep)
 
-<span class="deco">@pytest.fixture</span>(autouse=<span class="kw">True</span>)   <span class="cm"># רץ אוטומטית לכל בדיקה</span>
+<span class="deco">@pytest.fixture</span>(autouse=<span class="kw">True</span>)
 <span class="kw">def</span> <span class="fn">screenshot_on_failure</span>(page, request):
     <span class="kw">yield</span>
     <span class="kw">if</span> <span class="fn">getattr</span>(request.node, <span class="str">"rep_call"</span>, <span class="kw">None</span>) <span class="kw">and</span> request.node.rep_call.failed:
         path = <span class="fn">f</span><span class="str">"screenshots/FAIL_{request.node.name}.png"</span>
         page.screenshot(path=path)
         allure.attach.file(path, attachment_type=allure.attachment_type.<span class="var">PNG</span>)</pre>
+    </div>
+
+    <!-- test files -->
+    <div class="card">
+      <h3>✅ tests/test_login.py, test_search.py, test_cart.py – ה-Specs</h3>
+      <p>
+        כל קובץ בדיקה מקבל <strong>רק את ה-fixtures הרלוונטיים לו</strong>.
+        <code>test_login.py</code> מקבל <code>login_data</code>, לא את כל הנתונים.
+      </p>
+      <pre><span class="cm"># tests/test_login.py – בודק רק את Login</span>
+<span class="kw">import</span> allure
+<span class="kw">from</span> pages.login_page <span class="kw">import</span> LoginPage
+
+<span class="kw">class</span> <span class="cl">TestLogin</span>:
+    <span class="deco">@allure.title</span>(<span class="str">"Login or Register"</span>)
+    <span class="kw">def</span> <span class="fn">test_login</span>(self, page, login_data):   <span class="cm"># ← מקבל רק login_data</span>
+        <span class="cl">LoginPage</span>(page).login_or_register(
+            login_data[<span class="str">"email"</span>], login_data[<span class="str">"password"</span>]
+        )</pre>
+
+      <pre><span class="cm"># tests/test_search.py – בודק רק את Search</span>
+<span class="kw">import</span> allure
+<span class="kw">from</span> pages.home_page <span class="kw">import</span> HomePage
+<span class="kw">from</span> pages.search_results_page <span class="kw">import</span> SearchResultsPage
+
+<span class="kw">class</span> <span class="cl">TestSearch</span>:
+    <span class="deco">@allure.title</span>(<span class="str">"Search items under price"</span>)
+    <span class="kw">def</span> <span class="fn">test_search_under_price</span>(self, page, login_data, search_data):
+        <span class="cl">LoginPage</span>(page).login_or_register(login_data[<span class="str">"email"</span>], login_data[<span class="str">"password"</span>])
+        <span class="cl">HomePage</span>(page).open()
+        <span class="cl">HomePage</span>(page).search(search_data[<span class="str">"query"</span>])
+        urls = <span class="cl">SearchResultsPage</span>(page).get_items_under_price(
+            search_data[<span class="str">"max_price"</span>], search_data[<span class="str">"limit"</span>]
+        )
+        <span class="kw">assert</span> <span class="fn">len</span>(urls) > <span class="num">0</span>, <span class="str">"לא נמצאו מוצרים"</span></pre>
+
+      <pre><span class="cm"># tests/test_cart.py – בודק את Cart (E2E מלא)</span>
+<span class="kw">import</span> allure
+<span class="kw">from</span> pages.login_page <span class="kw">import</span> LoginPage
+<span class="kw">from</span> pages.home_page <span class="kw">import</span> HomePage
+<span class="kw">from</span> pages.search_results_page <span class="kw">import</span> SearchResultsPage
+<span class="kw">from</span> pages.product_page <span class="kw">import</span> ProductPage
+<span class="kw">from</span> pages.cart_page <span class="kw">import</span> CartPage
+
+<span class="kw">class</span> <span class="cl">TestCart</span>:
+    <span class="deco">@allure.title</span>(<span class="str">"Add to cart and assert total"</span>)
+    <span class="kw">def</span> <span class="fn">test_cart_total</span>(self, page, login_data, search_data, cart_data):
+        <span class="cl">LoginPage</span>(page).login_or_register(login_data[<span class="str">"email"</span>], login_data[<span class="str">"password"</span>])
+        <span class="cl">HomePage</span>(page).open()
+        <span class="cl">HomePage</span>(page).search(search_data[<span class="str">"query"</span>])
+        urls = <span class="cl">SearchResultsPage</span>(page).get_items_under_price(
+            search_data[<span class="str">"max_price"</span>], search_data[<span class="str">"limit"</span>]
+        )
+        product = <span class="cl">ProductPage</span>(page)
+        <span class="kw">for</span> url <span class="kw">in</span> urls:
+            product.add_to_cart(url)
+
+        total = <span class="cl">CartPage</span>(page).get_total()
+        threshold = cart_data[<span class="str">"budget_per_item"</span>] * <span class="fn">len</span>(urls)
+        <span class="kw">assert</span> total <= threshold</pre>
     </div>
 
   </section>
