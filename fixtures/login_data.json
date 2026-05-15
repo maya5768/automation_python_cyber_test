@@ -8,7 +8,7 @@
     },
     {
       "id":       "wrong_password",
-      "email":    "test_auto_maya@auto.com",
+      "email":    "david.cohen1987@gmail.com",
       "password": "WrongPass",
       "expected": "failure"
     },

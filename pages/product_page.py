@@ -8,7 +8,7 @@ class ProductPage(BasePage):
 
     def _select_variants(self):
         for sel in self.page.locator("select[name^='option']").all():
-            opts = sel.locator("option[value!='']").all()
+            opts = sel.locator("option:not([value=''])").all()
             if opts:
                 sel.select_option(random.choice(opts).get_attribute("value"))
 

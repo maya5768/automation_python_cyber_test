@@ -31,5 +31,4 @@ class LoginPage(BasePage):
         if self.login(email, password):
             return True
         unique_email = f"test_{int(time.time())}@auto.com"
-        self.register(unique_email, password)
-        return self.login(unique_email, password)
+        return self.register(unique_email, password)
