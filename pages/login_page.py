@@ -1,4 +1,3 @@
-import time
 from pages.base_page import BasePage
 
 
@@ -28,7 +27,6 @@ class LoginPage(BasePage):
         return "success" in self.page.url
 
     def login_or_register(self, email: str, password: str) -> bool:
-        if self.login(email, password):
-            return True
-        unique_email = f"test_{int(time.time())}@auto.com"
-        return self.register(unique_email, password)
+        # Account is guaranteed to exist — created once by ensure_test_account in conftest.py.
+        # Each test simply logs in directly with no registration attempt.
+        return self.login(email, password)

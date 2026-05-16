@@ -2,21 +2,24 @@
   "test_cases": [
     {
       "id":       "valid_user",
-      "email":    "test_auto_maya@auto.com",
+      "email":    "maya_oryan@gmail.com",
       "password": "Test123!",
-      "expected": "success"
+      "expected": "success",
+      "active":   true
     },
     {
       "id":       "wrong_password",
       "email":    "david.cohen1987@gmail.com",
       "password": "WrongPass",
-      "expected": "failure"
+      "expected": "failure",
+      "active":   false
     },
     {
       "id":       "empty_fields",
       "email":    "",
       "password": "",
-      "expected": "failure"
+      "expected": "failure",
+      "active":   false
     }
   ]
 }

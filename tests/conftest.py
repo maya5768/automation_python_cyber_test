@@ -6,10 +6,27 @@ from pathlib import Path
 
 
 def load_cases(filename: str) -> list:
-    """Load test_cases array from fixtures/<filename>."""
+    """Load active test_cases from fixtures/<filename>. Cases with active=false are skipped."""
     base = Path(__file__).parent.parent
     with open(base / "fixtures" / filename, encoding="utf-8") as f:
-        return json.load(f)["test_cases"]
+        cases = json.load(f)["test_cases"]
+    return [c for c in cases if c.get("active", True)]
+
+
+@pytest.fixture(scope="session", autouse=True)
+def ensure_test_account(playwright):
+    """Register the test account once per session before any test runs.
+    If the account already exists the registration fails silently and we move on."""
+    cases = load_cases("login_data.json")
+    valid = next((c for c in cases if c["expected"] == "success"), None)
+    if valid:
+        from pages.login_page import LoginPage
+        browser = playwright.chromium.launch(headless=True)
+        context = browser.new_context()
+        page = context.new_page()
+        LoginPage(page).register(valid["email"], valid["password"])
+        context.close()
+        browser.close()
 
 
 @pytest.fixture(scope="session")
